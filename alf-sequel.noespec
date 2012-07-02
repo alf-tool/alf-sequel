@@ -1,0 +1,27 @@
+template-info:
+  name: alf.noe
+  version: 0.1.0
+  manifest:
+    Gemfile:
+      safe-override: false
+variables:
+  lower:
+    sequel
+  upper:
+    Sequel
+  version:
+    0.13.0
+  summary:
+    A sequel adapter for alf
+  description: |-
+    This project implements an Alf adapter on top of the awesome sequel toolkit.
+  authors:
+    - {name: Bernard Lambeau, email: blambeau at gmail.com}
+  links:
+    - http://github.com/blambeau/alf-sequel
+    - http://github.com/blambeau/alf
+  dependencies:
+    - {name: alf,       version: "~> 0.13.0", groups: [runtime]}
+    - {name: sequel,    version: "~> 3.36",   groups: [runtime]}
+    - {name: rake,      version: "~> 0.9.2",  groups: [development]}
+    - {name: rspec,     version: "~> 2.10",   groups: [development]}

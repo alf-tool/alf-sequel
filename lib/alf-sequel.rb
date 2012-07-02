@@ -1,1 +1,1 @@
-require_relative 'alf/sequel'
+require_relative "alf/sequel"
