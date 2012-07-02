@@ -3,7 +3,7 @@ require "alf/sequel/version"
 $version = Alf::Sequel::Version.to_s
 
 Gem::Specification.new do |s|
-  s.name = "sequel"
+  s.name = "alf-sequel"
   s.version = $version
   s.summary = "A sequel adapter for alf"
   s.description = "This project implements an Alf adapter on top of the awesome sequel toolkit."
