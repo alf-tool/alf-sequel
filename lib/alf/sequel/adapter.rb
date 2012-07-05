@@ -28,8 +28,8 @@ module Alf
 
         # Returns true if `f` looks like a sqlite file
         def looks_a_sqlite_file?(f)
-          return false unless Tools.pathable?(f)
-          path = Tools.to_path(f)
+          return false unless Path.like?(f)
+          path = Path(f)
           path.file? and ['db', 'sqlite', 'sqlite3'].include?(path.ext)
         end
 
