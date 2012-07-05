@@ -87,7 +87,7 @@ module Alf
       # Yields a Sequel::Database object
       def sequel_db
         @sequel_db ||= begin
-          Alf::Tools::friendly_require('sequel') unless defined?(::Sequel)
+          require 'sequel' unless defined?(::Sequel)
           ::Sequel.connect(@uri, @options)
         end
         block_given? ? yield(@sequel_db) : @sequel_db
