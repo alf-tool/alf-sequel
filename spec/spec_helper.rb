@@ -24,15 +24,15 @@ module Helpers
   end
 
   def sequel_database_uri
-    "#{Alf::Sequel::Adapter.sqlite_protocol}://#{sequel_database_path}"
+    "#{Alf::Sequel::Connection.sqlite_protocol}://#{sequel_database_path}"
   end
 
   def sequel_database_memory
-    "#{Alf::Sequel::Adapter.sqlite_protocol}:memory"
+    "#{Alf::Sequel::Connection.sqlite_protocol}:memory"
   end
 
   def sequel_adapter(arg = sequel_database_path)
-    Alf::Sequel::Adapter.new(arg)
+    Alf::Sequel::Connection.new(arg)
   end
 
   def sequel_names_adapter

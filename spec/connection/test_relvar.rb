@@ -1,7 +1,7 @@
 require 'spec_helper'
 module Alf
   module Sequel
-    describe Adapter, 'relvar' do
+    describe Connection, 'base_relvar' do
 
       let(:rel) {
         Alf::Relation[
@@ -16,16 +16,16 @@ module Alf
       let(:adapter) { sequel_adapter }
 
       it "should serve relvars" do
-        adapter.relvar(:suppliers).should be_a(Alf::Relvar)
+        adapter.base_relvar(:suppliers).should be_a(Alf::Relvar)
       end
 
       it "should be the correct relation" do
-        adapter.relvar(:suppliers).value.should eq(rel)
+        adapter.base_relvar(:suppliers).value.should eq(rel)
       end
 
       it 'raises a NoSuchRelvarError if not found' do
         lambda{
-          adapter.relvar(:nosuchone)
+          adapter.base_relvar(:nosuchone)
         }.should raise_error(NoSuchRelvarError)
       end
 
