@@ -34,6 +34,7 @@ module Helpers
   def sequel_adapter(arg = sequel_database_path)
     Alf::Sequel::Connection.new(arg)
   end
+  alias :sequel_connection :sequel_adapter
 
   def sequel_names_adapter
     sequel_adapter(sequel_database_memory)
@@ -51,6 +52,10 @@ module Helpers
       end if values
     end
     adapter.relvar(:names)
+  end
+
+  def sap
+    @sap ||= Alf.connect Path.relative("fixtures/sap.db")
   end
 
 end
