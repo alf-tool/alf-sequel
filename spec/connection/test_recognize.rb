@@ -9,6 +9,7 @@ module Alf
 
       it "recognizes a Path to a sqlite databases" do
         Connection.recognizes?(sequel_database_path).should be_true
+        Connection.recognizes?("nosuchone.db").should be_true
       end
 
       it "recognizes database uris" do
@@ -23,7 +24,6 @@ module Alf
       end
 
       it "should not be too permissive" do
-        Connection.recognizes?("nosuchone.db").should be_false
         Connection.recognizes?(nil).should be_false
       end
 
