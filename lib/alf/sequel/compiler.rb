@@ -102,7 +102,6 @@ module Alf
     private
 
       def rewrite(expr)
-        raise NotSupportedError unless expr.context==context
         rewrited = copy_and_apply(expr)
         if block_given? and rewrited.operands.all?{|op| recognized?(op) }
           catch(:pass){ rewrited = yield(rewrited) }
