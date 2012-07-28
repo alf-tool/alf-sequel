@@ -45,6 +45,10 @@ module Alf
         super(*args)
       end
 
+      def compiler
+        Compiler.new(self)
+      end
+
       def iterator(name)
         raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
         sequel_db[name]
