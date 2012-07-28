@@ -46,14 +46,12 @@ module Alf
       end
 
       def base_relvar(name)
-        with_connection do |c|
-          raise NoSuchRelvarError, "No such table `#{name}`" unless c.table_exists?(name)
-        end
+        raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
         Relvar.new(self, name)
       end
 
       def ping
-        with_connection{|db| db.test_connection}
+        sequel_db.test_connection
       end
 
       def close
