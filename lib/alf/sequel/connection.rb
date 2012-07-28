@@ -53,18 +53,17 @@ module Alf
       end
 
       def ping
-        with_connection do |db|
-          db.test_connection
-        end
+        with_connection{|db| db.test_connection}
       end
 
       def close
-        @sequel_db.close if @sequel_db
+        @sequel_db.disconnect if @sequel_db
       end
 
       def with_connection
         yield(sequel_db)
       end
+      alias :with_sequel_db :with_connection
 
     private
 
