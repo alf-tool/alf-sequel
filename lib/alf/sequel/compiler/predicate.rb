@@ -26,10 +26,6 @@ module Alf
         alias :on_var_ref :on_sequel_expr
         alias :on_literal :on_sequel_expr
 
-        def on_comp(sexpr)
-          apply(sexpr.to_raw_expr)
-        end
-
         def on_eq(sexpr)
           left, right = apply(sexpr.left), apply(sexpr.right)
           ::Sequel.expr(left => right)
@@ -57,10 +53,6 @@ module Alf
         def on_or(sexpr)
           body = sexpr.sexpr_body
           body[1..-1].inject(apply(body.first)){|f,t| f | apply(t) }
-        end
-
-        def on_comp(sexpr)
-          apply(sexpr.to_raw_expr)
         end
 
       end # class Predicate
