@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ intersect(:suppliers, :supplies) }
+        let(:expr){ intersect(suppliers, supplies) }
 
         specify do
           subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` INTERSECT SELECT * FROM `supplies`) AS 't1'")

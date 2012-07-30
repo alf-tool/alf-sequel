@@ -7,6 +7,14 @@ module CompilerHelpers
     Alf::Operator::VarRef.new(ctx, name)
   end
 
+  def suppliers
+    var_ref(:suppliers)
+  end
+
+  def supplies
+    var_ref(:supplies)
+  end
+
   def _context
     sap
   end
@@ -16,7 +24,7 @@ module CompilerHelpers
   end
 
   def compile(expr)
-    Alf::Sequel::Compiler.new(sap).call(expr)
+    Alf::Sequel::Compiler.new.call(expr)
   end
 
 end

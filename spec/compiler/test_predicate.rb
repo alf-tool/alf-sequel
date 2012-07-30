@@ -5,7 +5,7 @@ module Alf
       describe Predicate do
 
         let(:p)        { Alf::Predicate           }
-        let(:dataset)  { sap.iterator(:suppliers) }
+        let(:dataset)  { sap.connection.iterator(:suppliers) }
         let(:compiler) { Predicate.new(dataset)   }
         let(:compiled) { compiler.call(expr)      }
 

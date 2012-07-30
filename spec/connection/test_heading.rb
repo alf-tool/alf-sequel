@@ -3,7 +3,7 @@ module Alf
   module Sequel
     describe Connection, 'heading' do
 
-      subject{ sap.heading(:suppliers) }
+      subject{ sap_connection.heading(:suppliers) }
 
       let(:expected){
         Heading[:sid => Integer, :name => String, :status => Integer, :city => String]

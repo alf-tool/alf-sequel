@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ project(:suppliers, [:sid, :name]) }
+        let(:expr){ project(suppliers, [:sid, :name]) }
 
         specify{
           subject.sql.should eq("SELECT `sid`, `name` FROM `suppliers`")
@@ -14,7 +14,7 @@ module Alf
       end
 
       context 'when the operand is fully compilable (distinct needed)' do
-        let(:expr){ project(:suppliers, [:city]) }
+        let(:expr){ project(suppliers, [:city]) }
 
         specify{
           subject.sql.should eq("SELECT DISTINCT `city` FROM `suppliers`")
@@ -22,7 +22,7 @@ module Alf
       end
 
       context 'when the operand is fully compilable (allbut, distinct)' do
-        let(:expr){ project(:suppliers, [:sid, :name, :status], :allbut => true) }
+        let(:expr){ project(suppliers, [:sid, :name, :status], :allbut => true) }
 
         specify{
           subject.sql.should eq("SELECT DISTINCT `city` FROM `suppliers`")

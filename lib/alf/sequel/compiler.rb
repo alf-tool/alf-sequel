@@ -2,11 +2,6 @@ module Alf
   module Sequel
     class Compiler < Lang::Compiler
 
-      def initialize(context)
-        @context = context
-      end
-      attr_reader :context
-
       def call(expr)
         compiled = super
         compiled = Sequel::Iterator.new(compiled) if compiled.is_a?(::Sequel::Dataset)
@@ -17,6 +12,12 @@ module Alf
         rewrite(expr)
       end
       alias :on_missing :pass
+
+    ### var_ref, end of recursion
+
+      def on_var_ref(expr)
+        expr.context.connection.iterator(expr.name)
+      end
 
     ### non relational
 
@@ -117,7 +118,7 @@ module Alf
       end
 
       def engine
-        @engine ||= Engine::Compiler.new(context)
+        @engine ||= Engine::Compiler.new
       end
 
     end # class Compiler

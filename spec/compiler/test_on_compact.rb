@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ compact(:suppliers) }
+        let(:expr){ compact(suppliers) }
 
         specify{
           subject.sql.should eq("SELECT DISTINCT * FROM `suppliers`")

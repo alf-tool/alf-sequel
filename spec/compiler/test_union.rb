@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ union(:suppliers, :supplies) }
+        let(:expr){ union(suppliers, supplies) }
 
         specify do
           subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` UNION SELECT * FROM `supplies`) AS 't1'")

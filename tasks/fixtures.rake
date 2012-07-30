@@ -6,8 +6,8 @@ task :fixtures do
   require 'alf-sequel'
   path = Path.relative("../spec/fixtures/sap.db")
   path.unlink if path.exist?
-  Alf.connect(path) do |conn|
-    conn.with_sequel_db do |db|
+  Alf.connect(path) do |alf_db|
+    alf_db.connection.with_sequel_db do |db|
       db.create_table(:suppliers) do
         primary_key :sid
         String :name
@@ -29,13 +29,13 @@ task :fixtures do
       end
     end
     ex = Alf::Database.examples
-    conn.relvar(:suppliers).affect ex.query{ 
+    alf_db.relvar(:suppliers).affect ex.query{
       (extend :suppliers, :sid => lambda{ (sid.match /\d+/)[0].to_i })
     }
-    conn.relvar(:parts).affect ex.query{
+    alf_db.relvar(:parts).affect ex.query{
       (extend :parts, :pid => lambda{ (pid.match /\d+/)[0].to_i })
     }
-    conn.relvar(:supplies).affect ex.query{
+    alf_db.relvar(:supplies).affect ex.query{
       (extend :supplies, :sid => lambda{ (sid.match /\d+/)[0].to_i },
                          :pid => lambda{ (pid.match /\d+/)[0].to_i })
     }

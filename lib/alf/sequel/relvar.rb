@@ -2,16 +2,9 @@ module Alf
   module Sequel
     class Relvar < Alf::Relvar
 
-      def initialize(context, name, dataset=nil)
-        super(context, name)
-        @dataset   = dataset
-        @dataset ||= context.with_connection{|c| c[name]}
-      end
-
-      def where(projection)
-        with_dataset do |c|
-          Relvar.new(context, nil, c.where(projection))
-        end
+      def initialize(context, expr, dataset)
+        super(context, expr)
+        @dataset = dataset
       end
 
       # Affects the current value of this relation variable.

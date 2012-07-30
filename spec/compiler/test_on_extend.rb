@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'with a native predicate' do
-        let(:expr){ extend(:suppliers, :big => lambda{}) }
+        let(:expr){ extend(suppliers, :big => lambda{}) }
       
         it{ should be_a(Engine::SetAttr) }
       end

@@ -46,17 +46,12 @@ module Alf
       end
 
       def compiler
-        Compiler.new(self)
+        Compiler.new
       end
 
       def iterator(name)
         raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
         sequel_db[name]
-      end
-
-      def base_relvar(name)
-        raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
-        Relvar.new(self, name)
       end
 
       def heading(name)
@@ -85,8 +80,8 @@ module Alf
         Keys.new(indexes)
       end
 
-      def native_schema
-        ::Alf::Database::Schema.new.tap do |s|
+      def native_schema_def
+        ::Alf::Database::SchemaDef.new.tap do |s|
           sequel_db.tables.each do |t|
             s.relvar(t)
           end

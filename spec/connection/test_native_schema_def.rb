@@ -1,11 +1,11 @@
 require 'spec_helper'
 module Alf
   module Sequel
-    describe Connection, 'native_schema' do
+    describe Connection, 'native_schema_def' do
 
-      subject{ sap.native_schema }
+      subject{ sap_connection.native_schema_def }
 
-      it{ should be_a(::Alf::Database::Schema) }
+      it{ should be_a(::Alf::Database::SchemaDef) }
 
       it "has the expected methods" do
         lambda{

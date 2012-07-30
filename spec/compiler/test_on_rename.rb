@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ rename(:suppliers, :sid => :id) }
+        let(:expr){ rename(suppliers, :sid => :id) }
 
         specify{
           subject.sql.should eq("SELECT `sid` AS 'id', `name` AS 'name', `status` AS 'status', `city` AS 'city' FROM `suppliers`")

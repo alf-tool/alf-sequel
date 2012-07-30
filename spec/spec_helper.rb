@@ -50,12 +50,16 @@ module Helpers
       supplier_names_relation.each do |tuple|
         c[:names].insert(tuple)
       end if values
+      Alf::Sequel::Relvar.new(adapter, Alf::Operator::VarRef.new(adapter, :names), c[:names])
     end
-    adapter.relvar(:names)
   end
 
   def sap
     @sap ||= Alf.connect Path.relative("fixtures/sap.db")
+  end
+
+  def sap_connection
+    sap.connection
   end
 
 end

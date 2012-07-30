@@ -6,7 +6,7 @@ module Alf
       subject{ compile(expr) }
 
       context 'when the operand is fully compilable' do
-        let(:expr){ sort(:suppliers, [ [:name, :asc], [:status, :desc] ]) }
+        let(:expr){ sort(suppliers, [ [:name, :asc], [:status, :desc] ]) }
 
         specify{
           subject.sql.should eq("SELECT * FROM `suppliers` ORDER BY `name` ASC, `status` DESC")
