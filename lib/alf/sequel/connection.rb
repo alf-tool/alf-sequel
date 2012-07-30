@@ -85,6 +85,14 @@ module Alf
         Keys.new(indexes)
       end
 
+      def native_schema
+        ::Alf::Database::Schema.new.tap do |s|
+          sequel_db.tables.each do |t|
+            s.relvar(t)
+          end
+        end
+      end
+
       def ping
         sequel_db.test_connection
       end
