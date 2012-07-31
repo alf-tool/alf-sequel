@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/blambeau/alf.git
-  revision: b5d62b42750d16c24a8b23c025188e1a52693e53
+  revision: d96e0821b697bb9b713c5549a846d94bbe7943cf
   specs:
     alf (0.13.0)
       backports (~> 2.6)
