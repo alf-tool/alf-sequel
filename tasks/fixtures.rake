@@ -30,14 +30,14 @@ task :fixtures do
     end
     ex = Alf::Database.examples
     alf_db.relvar(:suppliers).affect ex.query{
-      (extend :suppliers, :sid => lambda{ (sid.match /\d+/)[0].to_i })
+      (extend suppliers, :sid => lambda{ (sid.match /\d+/)[0].to_i })
     }
     alf_db.relvar(:parts).affect ex.query{
-      (extend :parts, :pid => lambda{ (pid.match /\d+/)[0].to_i })
+      (extend parts, :pid => lambda{ (pid.match /\d+/)[0].to_i })
     }
     alf_db.relvar(:supplies).affect ex.query{
-      (extend :supplies, :sid => lambda{ (sid.match /\d+/)[0].to_i },
-                         :pid => lambda{ (pid.match /\d+/)[0].to_i })
+      (extend supplies, :sid => lambda{ (sid.match /\d+/)[0].to_i },
+                        :pid => lambda{ (pid.match /\d+/)[0].to_i })
     }
   end
 end
