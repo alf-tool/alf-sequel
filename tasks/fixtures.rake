@@ -26,6 +26,7 @@ task :fixtures do
         Integer :sid
         Integer :pid
         Integer :qty
+        primary_key [:sid, :pid]
       end
     end
     ex = Alf::Database.examples

@@ -12,7 +12,12 @@ module Alf
         def insert(name, tuples)
           with_dataset(name) do |d|
             options = {:return => :primary_key}
-            Alf::Relation keys(name).first.to_a.first => d.multi_insert(tuples, options)
+            inserted_ids = d.multi_insert(tuples, options)
+            if (key = keys(name).first) && (key.size==1)
+              Alf::Relation key.to_a.first => inserted_ids
+            else
+              Alf::Relation :id => inserted_ids
+            end
           end
         end
 
