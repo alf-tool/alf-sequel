@@ -41,6 +41,11 @@ module Alf
         alias :on_gt  :on_dyadic_comp
         alias :on_gte :on_dyadic_comp
 
+        def on_in(sexpr)
+          left = apply(sexpr.var_ref)
+          ::Sequel.expr(left => sexpr.values)
+        end
+
         def on_not(sexpr)
           ~apply(sexpr.last)
         end

@@ -19,6 +19,22 @@ module Alf
         }
       end
 
+      context 'when the operand is a IN (values)' do
+        let(:expr){ restrict(suppliers, Predicate.in(:city, ["London", "Paris"])) }
+
+        specify{
+          subject.sql.should eq("SELECT * FROM `suppliers` WHERE (`city` IN ('London', 'Paris'))")
+        }
+      end
+
+      context 'when the operand is a NOT IN (values)' do
+        let(:expr){ restrict(suppliers, !Predicate.in(:city, ["London", "Paris"])) }
+
+        specify{
+          subject.sql.should eq("SELECT * FROM `suppliers` WHERE (`city` NOT IN ('London', 'Paris'))")
+        }
+      end
+
     end
   end
 end
