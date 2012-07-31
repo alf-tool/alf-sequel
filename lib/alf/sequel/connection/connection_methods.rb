@@ -22,10 +22,7 @@ module Alf
         def sequel_db
           @sequel_db ||= begin
             require 'sequel' unless defined?(::Sequel)
-            require 'logger'
-            #options = {:loggers => [Logger.new($stderr)]}
-            options = {}
-            ::Sequel.connect(conn_spec, options)
+            ::Sequel.connect(conn_spec)
           end
           block_given? ? yield(@sequel_db) : @sequel_db
         end
