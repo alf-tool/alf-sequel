@@ -16,7 +16,7 @@ module Alf
     ### var_ref, end of recursion
 
       def on_var_ref(expr)
-        expr.context.connection.iterator(expr.name)
+        expr.context.iterator(expr.name)
       end
 
     ### non relational

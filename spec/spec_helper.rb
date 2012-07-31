@@ -50,8 +50,14 @@ module Helpers
       supplier_names_relation.each do |tuple|
         c[:names].insert(tuple)
       end if values
-      Alf::Sequel::Relvar.new(adapter, Alf::Operator::VarRef.new(adapter, :names), c[:names])
     end
+    Alf::Relvar.new(adapter, Alf::Operator::VarRef.new(adapter, :names))
+  end
+
+  def names_db
+    ad = sequel_names_adapter
+    create_names_schema(ad)
+    Alf.connect(ad)
   end
 
   def sap
