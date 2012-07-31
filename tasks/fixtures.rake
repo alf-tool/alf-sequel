@@ -6,6 +6,7 @@ task :fixtures do
   require 'alf-sequel'
   path = Path.relative("../spec/fixtures/sap.db")
   path.unlink if path.exist?
+  path.parent.mkdir_p unless path.parent.exist?
   Alf.connect(path) do |alf_db|
     alf_db.connection.with_sequel_db do |db|
       db.create_table(:suppliers) do
