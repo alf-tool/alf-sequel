@@ -48,7 +48,7 @@ module Alf
           begin
             Kernel.eval(info[:type].to_s.capitalize)
           rescue NameError
-            case type
+            case info[:type]
             when :datetime then Time
             when :boolean  then Alf::Boolean
             else Object
