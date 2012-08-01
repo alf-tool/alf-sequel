@@ -3,6 +3,18 @@ module Alf
     class Connection
       module ConnectionMethods
 
+        def connection_uri
+          if conn_spec.is_a?(Hash)
+            adapter, host, port, database = Tuple(conn_spec).values_at(:adapter, :host, :port, :database)
+            host = "localhost"       if host.nil? and not(adapter =~ /sqlite/)
+            host = "#{host}:#{port}" if host and port
+            host = "/#{host}"        if host
+            "#{adapter}:/#{host}/#{database}"
+          else
+            conn_spec
+          end
+        end
+
         def ping
           sequel_db.test_connection
         end

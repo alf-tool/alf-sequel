@@ -56,6 +56,8 @@ module Alf
       include ConnectionMethods
       include UpdateMethods
 
+      alias :to_s :connection_uri
+
       Alf::Connection.register(:sequel, self)
     end # class Connection
   end # module Sequel
