@@ -5,10 +5,12 @@ module Alf
 
         def connection_uri
           if conn_spec.is_a?(Hash)
-            adapter, host, port, database = Tuple(conn_spec).values_at(:adapter, :host, :port, :database)
+            cs = Tuple(self.conn_spec)
+            adapter, host, port, database, user = cs.values_at(:adapter, :host, :port, :database, :user)
+            user = "#{user}@"        if user
             host = "localhost"       if host.nil? and not(adapter =~ /sqlite/)
             host = "#{host}:#{port}" if host and port
-            host = "/#{host}"        if host
+            host = "/#{user}#{host}" if host or user
             "#{adapter}:/#{host}/#{database}"
           else
             conn_spec
