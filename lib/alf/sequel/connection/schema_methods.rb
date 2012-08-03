@@ -45,11 +45,12 @@ module Alf
       private
 
         def dbtype_to_ruby_type(info)
+          return Object unless info[:type]
           begin
             Kernel.eval(info[:type].to_s.capitalize)
           rescue NameError
             case info[:type]
-            when :datetime then Time
+            when :datetime then DateTime
             when :boolean  then Alf::Boolean
             else Object
             end
