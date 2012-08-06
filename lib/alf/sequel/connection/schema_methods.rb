@@ -39,6 +39,9 @@ module Alf
             sequel_db.tables.each do |t|
               s.relvar(t)
             end
+            sequel_db.views.each do |t|
+              s.relvar(t)
+            end
           end
         end
 
