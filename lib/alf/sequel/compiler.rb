@@ -65,9 +65,33 @@ module Alf
         }
       end
 
-      alias :on_matching :pass
+      def on_matching(expr)
+        rewrite(expr) do |rw|
+          rw.left.filter(matching2filter(expr, rw))
+        end
+      end
+
+      def on_not_matching(expr)
+        rewrite(expr) do |rw|
+          rw.left.filter(~matching2filter(expr, rw))
+        end
+      end
+
+      def matching2filter(expr, rw)
+        commons = expr.common_attributes.to_a
+        if commons.size==1
+          # (NOT) IN (SELECT ...)
+          pred = ::Alf::Predicate.in(commons.first, rw.right.select(commons).dataset)
+          Predicate.new(:qualifier => rw.left.as).call(pred)
+        else
+          # (NOT) EXISTS (SELECT ...)
+          filter = ::Sequel.expr Hash[rw.left.qualify(commons).zip(rw.right.qualify(commons))]
+          filter = rw.right.filter(filter)
+          filter.dataset.exists
+        end
+      end
+
       alias :on_minus :pass
-      alias :on_not_matching :pass
 
       def on_project(expr)
         rewrite(expr){|rw|
@@ -88,7 +112,8 @@ module Alf
 
       def on_restrict(expr)
         rewrite(expr){|rw|
-          rw.operand.filter(Predicate.new(:qualifier => rw.operand.as).call(rw.predicate))
+          filter = Predicate.new(:qualifier => rw.operand.as).call(rw.predicate)
+          rw.operand.filter(filter)
         }
       end
 

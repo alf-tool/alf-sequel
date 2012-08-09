@@ -6,9 +6,10 @@ module Alf
 
         let(:p)        { Alf::Predicate      }
         let(:compiler) { Predicate.new       }
+        let(:dataset)  { sap.connection.dataset(:suppliers) }
         let(:compiled) { compiler.call(expr) }
 
-        subject{ compiled.to_s(sap.connection.dataset(:suppliers)) }
+        subject{ compiled.to_s(dataset) }
 
         context 'tautology' do
           let(:expr){ p.tautology }
@@ -104,6 +105,12 @@ module Alf
           let(:expr){ p.in(:x, [2, 3]) }
 
           it{ should eq("(`x` IN (2, 3))") }
+        end
+
+        context 'in with a dataset at right' do
+          let(:expr){ p.in(:x, dataset) }
+
+          it{ should eq("(`x` IN (SELECT * FROM `suppliers`))") }
         end
 
         context 'native' do

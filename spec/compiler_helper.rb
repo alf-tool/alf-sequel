@@ -15,6 +15,10 @@ module CompilerHelpers
     var_ref(:supplies)
   end
 
+  def parts
+    var_ref(:parts)
+  end
+
   def _context
     sap
   end
