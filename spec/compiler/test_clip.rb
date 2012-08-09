@@ -9,7 +9,7 @@ module Alf
         let(:expr){ clip(suppliers, [:sid, :name]) }
 
         specify{
-          subject.sql.should eq("SELECT `sid`, `name` FROM `suppliers`")
+          subject.sql.should eq("SELECT `t1`.`sid`, `t1`.`name` FROM `suppliers` AS 't1'")
         }
       end
 
@@ -17,7 +17,7 @@ module Alf
         let(:expr){ clip(suppliers, [:city]) }
 
         specify{
-          subject.sql.should eq("SELECT `city` FROM `suppliers`")
+          subject.sql.should eq("SELECT `t1`.`city` FROM `suppliers` AS 't1'")
         }
       end
 
@@ -25,7 +25,7 @@ module Alf
         let(:expr){ clip(suppliers, [:sid, :name, :status], :allbut => true) }
 
         specify{
-          subject.sql.should eq("SELECT `city` FROM `suppliers`")
+          subject.sql.should eq("SELECT `t1`.`city` FROM `suppliers` AS 't1'")
         }
       end
 

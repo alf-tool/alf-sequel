@@ -20,11 +20,17 @@ module Alf
           ::Sequel::SQL::BooleanConstant.new(false)
         end
 
-        def on_sequel_expr(sexpr)
+        def on_var_ref(sexpr)
+          if qualifier = options[:qualifier]
+            ::Sequel.qualify(qualifier, sexpr.last)
+          else
+            ::Sequel.expr(sexpr.last)
+          end
+        end
+
+        def on_literal(sexpr)
           ::Sequel.expr(sexpr.last)
         end
-        alias :on_var_ref :on_sequel_expr
-        alias :on_literal :on_sequel_expr
 
         def on_eq(sexpr)
           left, right = apply(sexpr.left), apply(sexpr.right)

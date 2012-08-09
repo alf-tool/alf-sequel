@@ -9,7 +9,7 @@ module Alf
         let(:expr){ intersect(suppliers, supplies) }
 
         specify do
-          subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` INTERSECT SELECT * FROM `supplies`) AS 't1'")
+          subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` AS 't1' INTERSECT SELECT * FROM `supplies` AS 't2') AS 't3'")
         end
       end
 

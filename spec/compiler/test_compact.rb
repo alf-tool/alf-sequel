@@ -9,7 +9,7 @@ module Alf
         let(:expr){ compact(suppliers) }
 
         specify{
-          subject.sql.should eq("SELECT DISTINCT * FROM `suppliers`")
+          subject.sql.should eq("SELECT DISTINCT * FROM `suppliers` AS 't1'")
         }
       end
 

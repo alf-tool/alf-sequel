@@ -2,21 +2,20 @@ module Alf
   module Sequel
     class Compiler < Lang::Compiler
 
-      def call(expr)
-        compiled = super
-        compiled = Sequel::Iterator.new(compiled) if compiled.is_a?(::Sequel::Dataset)
-        compiled
-      end
-
       def pass(expr)
         rewrite(expr)
       end
       alias :on_missing :pass
 
+      def next_alias
+        @as ||= 0
+        :"t#{@as += 1}"
+      end
+
     ### var_ref, end of recursion
 
       def on_var_ref(expr)
-        expr.context.iterator(expr.name)
+        expr.context.iterator(expr.name, next_alias)
       end
 
     ### non relational
@@ -27,17 +26,24 @@ module Alf
       alias :on_generator :pass
 
       def on_clip(expr)
-        rewrite(expr){|rw| rw.operand.select(*expr.stay_attributes) }
+        rewrite(expr){|rw|
+          rw.operand.select(expr.stay_attributes)
+        }
       end
 
       def on_compact(expr)
-        rewrite(expr){|rw| rw.operand.distinct }
+        rewrite(expr){|rw|
+          rw.operand.distinct
+        }
       end
 
       def on_sort(expr)
         rewrite(expr){|rw|
-          ordering = expr.ordering.to_a.map{|(col,dir)| ::Sequel.send(dir, col) }
-          rw.operand.order(*ordering)
+          operand = rw.operand
+          ordering = expr.ordering.to_a.map{|(col,dir)|
+            ::Sequel.send(dir, operand.qualify(col))
+          }
+          operand.order(*ordering)
         }
       end
 
@@ -48,11 +54,14 @@ module Alf
       alias :on_infer_heading :pass
 
       def on_intersect(expr)
-        rewrite(expr){|rw| rw.left.intersect(rw.right) }
+        rewrite(expr){|rw| rw.left.intersect(rw.right, :alias => next_alias) }
       end
 
       def on_join(expr)
-        rewrite(expr){|rw| rw.left.natural_join(rw.right) }
+        rewrite(expr){|rw|
+          attrs = expr.left.heading.to_attr_list & expr.right.heading.to_attr_list
+          rw.left.join(rw.right, attrs.to_a, :table_alias => next_alias)
+        }
       end
 
       alias :on_matching :pass
@@ -61,7 +70,7 @@ module Alf
 
       def on_project(expr)
         rewrite(expr){|rw|
-          compiled = rw.operand.select(*expr.stay_attributes)
+          compiled = rw.operand.select(expr.stay_attributes)
           compiled = compiled.distinct unless key_preserving?(expr){ false }
           compiled
         }
@@ -71,18 +80,24 @@ module Alf
       alias :on_rank  :pass
 
       def on_rename(expr)
-        rewrite(expr){|rw| rw.operand.select(expr.complete_renaming.to_hash) }
+        rewrite(expr){|rw|
+          rw.operand.select(expr.complete_renaming.to_hash)
+        }
       end
 
       def on_restrict(expr)
-        rewrite(expr){|rw| rw.operand.filter(Predicate.new.call(rw.predicate)) }
+        rewrite(expr){|rw|
+          rw.operand.filter(Predicate.new(:qualifier => rw.operand.as).call(rw.predicate))
+        }
       end
 
       alias :on_summarize :pass
       alias :on_ungroup :pass
 
       def on_union(expr)
-        rewrite(expr){|rw| rw.left.union(rw.right) }
+        rewrite(expr){|rw|
+          rw.left.union(rw.right, :alias => next_alias)
+        }
       end
 
       alias :on_unwrap :pass
@@ -114,7 +129,7 @@ module Alf
       end
 
       def recognized?(op)
-        op.is_a?(::Sequel::Dataset)
+        op.is_a?(Iterator)
       end
 
       def engine

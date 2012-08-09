@@ -9,7 +9,7 @@ module Alf
         let(:expr){ sort(suppliers, [ [:name, :asc], [:status, :desc] ]) }
 
         specify{
-          subject.sql.should eq("SELECT * FROM `suppliers` ORDER BY `name` ASC, `status` DESC")
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' ORDER BY `t1`.`name` ASC, `t1`.`status` DESC")
         }
       end
 

@@ -9,7 +9,7 @@ module Alf
         let(:expr){ union(suppliers, supplies) }
 
         specify do
-          subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` UNION SELECT * FROM `supplies`) AS 't1'")
+          subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` AS 't1' UNION SELECT * FROM `supplies` AS 't2') AS 't3'")
         end
       end
 

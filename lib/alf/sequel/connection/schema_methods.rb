@@ -3,9 +3,13 @@ module Alf
     class Connection
       module SchemaMethods
 
-        def iterator(name)
+        def dataset(name)
           raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
           sequel_db[name]
+        end
+
+        def iterator(name, as = nil)
+          Iterator.new dataset(as ? :"#{name}___#{as}" : name), as
         end
 
         def heading(name)

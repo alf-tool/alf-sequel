@@ -9,7 +9,7 @@ module Alf
         let(:expr){ rename(suppliers, :sid => :id) }
 
         specify{
-          subject.sql.should eq("SELECT `sid` AS 'id', `name` AS 'name', `status` AS 'status', `city` AS 'city' FROM `suppliers`")
+          subject.sql.should eq("SELECT `t1`.`sid` AS 'id', `t1`.`name` AS 'name', `t1`.`status` AS 'status', `t1`.`city` AS 'city' FROM `suppliers` AS 't1'")
         }
       end
 

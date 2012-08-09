@@ -15,7 +15,7 @@ module Alf
         let(:expr){ restrict(suppliers, :name => "Jones") }
 
         specify{
-          subject.sql.should eq("SELECT * FROM `suppliers` WHERE (`name` = 'Jones')")
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE (`t1`.`name` = 'Jones')")
         }
       end
 
@@ -23,7 +23,7 @@ module Alf
         let(:expr){ restrict(suppliers, Predicate.in(:city, ["London", "Paris"])) }
 
         specify{
-          subject.sql.should eq("SELECT * FROM `suppliers` WHERE (`city` IN ('London', 'Paris'))")
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE (`t1`.`city` IN ('London', 'Paris'))")
         }
       end
 
@@ -31,7 +31,7 @@ module Alf
         let(:expr){ restrict(suppliers, !Predicate.in(:city, ["London", "Paris"])) }
 
         specify{
-          subject.sql.should eq("SELECT * FROM `suppliers` WHERE (`city` NOT IN ('London', 'Paris'))")
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE (`t1`.`city` NOT IN ('London', 'Paris'))")
         }
       end
 
