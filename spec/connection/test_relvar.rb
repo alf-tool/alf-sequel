@@ -14,7 +14,7 @@ module Alf
       it 'raises a NoSuchRelvarError if not found' do
         lambda{
           sap.relvar(:nosuchone)
-        }.should raise_error(NoSuchRelvarError)
+        }.should raise_error
       end
 
     end

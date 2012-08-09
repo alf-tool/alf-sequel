@@ -8,11 +8,9 @@ module Alf
       it{ should be_a(::Alf::Database::SchemaDef) }
 
       it "has the expected methods" do
-        lambda{
-          subject.instance_method(:suppliers)
-          subject.instance_method(:parts)
-          subject.instance_method(:supplies)
-        }.should_not raise_error(NameError)
+        subject.relvars.should have_key(:suppliers)
+        subject.relvars.should have_key(:parts)
+        subject.relvars.should have_key(:supplies)
       end
 
     end
