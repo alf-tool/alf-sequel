@@ -4,12 +4,11 @@ module Alf
     class Compiler
       describe Predicate do
 
-        let(:p)        { Alf::Predicate           }
-        let(:dataset)  { sap.connection.iterator(:suppliers) }
-        let(:compiler) { Predicate.new(dataset)   }
-        let(:compiled) { compiler.call(expr)      }
+        let(:p)        { Alf::Predicate      }
+        let(:compiler) { Predicate.new       }
+        let(:compiled) { compiler.call(expr) }
 
-        subject{ compiled.to_s(dataset) }
+        subject{ compiled.to_s(sap.connection.dataset(:suppliers)) }
 
         context 'tautology' do
           let(:expr){ p.tautology }
