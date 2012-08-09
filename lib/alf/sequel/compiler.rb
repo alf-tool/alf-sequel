@@ -54,13 +54,14 @@ module Alf
       alias :on_infer_heading :pass
 
       def on_intersect(expr)
-        rewrite(expr){|rw| rw.left.intersect(rw.right, :alias => next_alias) }
+        rewrite(expr){|rw|
+          rw.left.intersect(rw.right, :alias => next_alias)
+        }
       end
 
       def on_join(expr)
         rewrite(expr){|rw|
-          attrs = expr.left.heading.to_attr_list & expr.right.heading.to_attr_list
-          rw.left.join(rw.right, attrs.to_a, :table_alias => next_alias)
+          rw.left.join(rw.right, expr.common_attributes.to_a, :table_alias => next_alias)
         }
       end
 
