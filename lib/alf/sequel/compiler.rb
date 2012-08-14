@@ -61,7 +61,7 @@ module Alf
 
       def on_join(expr)
         rewrite(expr){|rw|
-          rw.left.join(rw.right, expr.common_attributes.to_a, :table_alias => next_alias)
+          rw.left.join(rw.right, expr.common_attributes.to_a, :alias => next_alias)
         }
       end
 

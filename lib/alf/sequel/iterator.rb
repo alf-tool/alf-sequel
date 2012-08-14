@@ -52,7 +52,8 @@ module Alf
       end
 
       def join(other, cols, opts={})
-        branch dataset.inner_join(other.dataset, cols, opts), opts[:table_alias]
+        join = dataset.inner_join(other.dataset, cols, :table_alias => opts[:alias])
+        branch join.from_self(opts), opts[:alias]
       end
 
       def union(other, opts={})

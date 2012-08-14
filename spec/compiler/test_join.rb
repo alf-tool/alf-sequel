@@ -9,7 +9,7 @@ module Alf
         let(:expr){ join(suppliers, supplies) }
 
         specify do
-          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' INNER JOIN (SELECT * FROM `supplies` AS 't2') AS 't3' USING (`sid`)")
+          subject.sql.should eq("SELECT * FROM (SELECT * FROM `suppliers` AS 't1' INNER JOIN (SELECT * FROM `supplies` AS 't2') AS 't3' USING (`sid`)) AS 't3'")
         end
       end
 
