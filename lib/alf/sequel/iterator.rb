@@ -7,11 +7,16 @@ module Alf
       include Alf::Iterator
 
       # Creates an iterator instance
-      def initialize(dataset, as = nil)
+      def initialize(dataset, as = nil, context = nil)
         @dataset = dataset
         @as = as
+        @context = context
       end
-      attr_reader :dataset, :as
+      attr_reader :dataset, :as, :context
+
+      def main_scope
+        context.scope
+      end
 
       # (see Alf::Iterator#each)
       def each
@@ -24,34 +29,34 @@ module Alf
         attributes = qualify(attributes)
         case attributes
         when Hash
-          Iterator.new dataset.select(attributes), as
+          branch dataset.select(attributes)
         else
-          Iterator.new dataset.select(*attributes), as
+          branch dataset.select(*attributes)
         end
       end
 
       def distinct(*args, &bl)
-        Iterator.new dataset.distinct(*args, &bl), as
+        branch dataset.distinct(*args, &bl)
       end
 
       def order(*args, &bl)
-        Iterator.new dataset.order(*args, &bl), as
+        branch dataset.order(*args, &bl)
       end
 
       def filter(*args, &bl)
-        Iterator.new dataset.filter(*args, &bl), as
+        branch dataset.filter(*args, &bl)
       end
 
       def intersect(other, opts={})
-        Iterator.new dataset.intersect(other.dataset, opts), opts[:alias]
+        branch dataset.intersect(other.dataset, opts), opts[:alias]
       end
 
       def join(other, cols, opts={})
-        Iterator.new dataset.inner_join(other.dataset, cols, opts), opts[:table_alias]
+        branch dataset.inner_join(other.dataset, cols, opts), opts[:table_alias]
       end
 
       def union(other, opts={})
-        Iterator.new dataset.union(other.dataset, opts), opts[:alias]
+        branch dataset.union(other.dataset, opts), opts[:alias]
       end
 
       def sql
@@ -66,6 +71,12 @@ module Alf
         else
           attributes.map{|attr| ::Sequel.qualify(as, attr)}
         end
+      end
+
+    private
+
+      def branch(ds, as=self.as, context=self.context)
+        Iterator.new ds, as, context
       end
 
     end # class Iterator

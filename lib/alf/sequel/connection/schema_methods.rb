@@ -8,8 +8,8 @@ module Alf
           sequel_db[name]
         end
 
-        def iterator(name, as = nil)
-          Iterator.new dataset(as ? :"#{name}___#{as}" : name), as
+        def iterator(name, as = nil, context = nil)
+          Iterator.new dataset(as ? :"#{name}___#{as}" : name), as, context
         end
 
         def heading(name)
