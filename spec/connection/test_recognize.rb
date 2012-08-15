@@ -7,6 +7,10 @@ module Alf
         Connection.recognizes?("#{sequel_database_path}").should be_true
       end
 
+      it "recognizes in memory sqlite databases" do
+        Connection.recognizes?(sequel_database_memory).should be_true
+      end
+
       it "recognizes a Path to a sqlite databases" do
         Connection.recognizes?(sequel_database_path).should be_true
         Connection.recognizes?("nosuchone.db").should be_true

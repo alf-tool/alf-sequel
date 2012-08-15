@@ -15,10 +15,6 @@ module Helpers
     Relation(:name => supplier_names)
   end
 
-  def examples_database(&bl)
-    Alf::Database.examples
-  end
-
   def sequel_database_path
     Path.dir/'alf.db'
   end
@@ -34,14 +30,13 @@ module Helpers
   def sequel_adapter(arg = sequel_database_path)
     Alf::Sequel::Connection.new(arg)
   end
-  alias :sequel_connection :sequel_adapter
 
   def sequel_names_adapter
     sequel_adapter(sequel_database_memory)
   end
 
   def create_names_schema(adapter, values = true)
-    adapter.with_connection do |c|
+    adapter.with_sequel_db do |c|
       c.drop_table(:names) if c.table_exists?(:names)
       c.create_table(:names) do
         primary_key :id
@@ -57,15 +52,11 @@ module Helpers
   def names_db
     ad = sequel_names_adapter
     create_names_schema(ad)
-    Alf.connect(ad)
+    ad
   end
 
   def sap
     @sap ||= Alf.connect Path.relative("fixtures/sap.db")
-  end
-
-  def sap_connection
-    sap.connection
   end
 
 end

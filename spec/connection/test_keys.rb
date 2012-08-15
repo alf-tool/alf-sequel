@@ -4,7 +4,7 @@ module Alf
     describe Connection, 'keys' do
 
       context "when only a primary key" do
-        subject{ sap_connection.keys(:parts) }
+        subject{ sap.keys(:parts) }
 
         let(:expected){ Keys[ [:pid] ] }
 
@@ -12,7 +12,7 @@ module Alf
       end
 
       context "when both primary key and unique index" do
-        subject{ sap_connection.keys(:suppliers) }
+        subject{ sap.keys(:suppliers) }
 
         let(:expected){ Keys[ [:sid], [:name] ] }
 

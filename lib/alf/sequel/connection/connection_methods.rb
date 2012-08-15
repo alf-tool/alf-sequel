@@ -25,10 +25,9 @@ module Alf
           @sequel_db.disconnect if @sequel_db
         end
 
-        def with_connection
+        def with_sequel_db
           yield(sequel_db)
         end
-        alias :with_sequel_db :with_connection
 
       private
 

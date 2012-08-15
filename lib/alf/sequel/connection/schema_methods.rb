@@ -38,17 +38,6 @@ module Alf
           Keys.new(indexes)
         end
 
-        def native_schema_def
-          ::Alf::Database::SchemaDef.new.tap do |s|
-            sequel_db.tables.each do |t|
-              s.relvar(t)
-            end
-            sequel_db.views.each do |t|
-              s.relvar(t)
-            end
-          end
-        end
-
       private
 
         def dbtype_to_ruby_type(info)

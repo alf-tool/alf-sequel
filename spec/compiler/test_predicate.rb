@@ -6,7 +6,7 @@ module Alf
 
         let(:p)        { Alf::Predicate      }
         let(:compiler) { Predicate.new       }
-        let(:dataset)  { sap.connection.dataset(:suppliers) }
+        let(:dataset)  { sap.dataset(:suppliers) }
         let(:compiled) { compiler.call(expr) }
 
         subject{ compiled.to_s(dataset) }

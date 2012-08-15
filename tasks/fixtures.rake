@@ -8,7 +8,7 @@ task :fixtures do
   path.unlink if path.exist?
   path.parent.mkdir_p unless path.parent.exist?
   Alf.connect(path) do |alf_db|
-    alf_db.connection.with_sequel_db do |db|
+    alf_db.with_sequel_db do |db|
       db.create_table(:suppliers) do
         primary_key :sid
         String :name
@@ -30,7 +30,7 @@ task :fixtures do
         primary_key [:sid, :pid]
       end
     end
-    ex = Alf::Database.examples
+    ex = Alf.examples
     alf_db.relvar(:suppliers).affect ex.query{
       (extend suppliers, :sid => lambda{ (sid.match /\d+/)[0].to_i })
     }

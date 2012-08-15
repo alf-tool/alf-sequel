@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 group :runtime do
   gem "alf", :git => "git://github.com/alf-tool/alf.git"
+  #gem "alf", :path => "../alf"
   gem "sequel", "~> 3.36"
 end
 
