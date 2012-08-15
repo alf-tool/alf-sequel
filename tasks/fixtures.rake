@@ -1,5 +1,5 @@
 task :fixtures do
-  require 'epath'
+  require 'path'
   require "sequel"
   require "sqlite3"
   require 'alf'
