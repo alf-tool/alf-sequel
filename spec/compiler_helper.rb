@@ -3,20 +3,16 @@ require_relative 'spec_helper'
 module CompilerHelpers
   include Alf::Lang::Functional
 
-  def var_ref(name, ctx = _context)
-    Alf::Operator::VarRef.new(ctx, name)
-  end
-
   def suppliers
-    var_ref(:suppliers)
+    sap.iterator(:suppliers)
   end
 
   def supplies
-    var_ref(:supplies)
+    sap.iterator(:supplies)
   end
 
   def parts
-    var_ref(:parts)
+    sap.iterator(:parts)
   end
 
   def _context

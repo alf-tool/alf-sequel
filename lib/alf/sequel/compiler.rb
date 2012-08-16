@@ -12,10 +12,8 @@ module Alf
         :"t#{@as += 1}"
       end
 
-    ### var_ref, end of recursion
-
-      def on_var_ref(expr)
-        expr.context.iterator(expr.name, next_alias, expr.context)
+      def on_outside(expr)
+        recognized?(expr) ? expr.compile(next_alias) : super
       end
 
     ### non relational
@@ -131,10 +129,6 @@ module Alf
 
     private
 
-      def var_ref?(expr)
-        expr.is_a?(Operator::VarRef)
-      end
-
       def key_preserving?(expr)
         expr.key_preserving?
       rescue NotSupportedError
@@ -155,7 +149,7 @@ module Alf
       end
 
       def recognized?(op)
-        op.is_a?(Iterator)
+        op.is_a?(Operand)
       end
 
       def engine

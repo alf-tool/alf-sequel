@@ -46,7 +46,7 @@ module Helpers
         c[:names].insert(tuple)
       end if values
     end
-    Alf::Relvar.new(adapter, Alf::Operator::VarRef.new(adapter, :names))
+    Alf::Relvar.new(adapter, adapter.iterator(:names))
   end
 
   def names_db

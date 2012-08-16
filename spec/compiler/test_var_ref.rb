@@ -6,16 +6,16 @@ module Alf
       subject{ compile(expr) }
 
       context 'on the proper context' do
-        let(:expr){ var_ref(:suppliers) }
+        let(:expr){ suppliers }
 
-        it{ should be_a(Sequel::Iterator) }
+        it{ should be_a(Operand::Compiled) }
       end
 
       context 'on another context' do
-        let(:expr){ var_ref(:suppliers, Alf::Database.examples) }
+        let(:expr){ Alf::Database.examples.iterator(:suppliers) }
 
         pending "support for multiple context is needed" do
-          it{ should_not be_a(Sequel::Iterator) }
+          it{ should_not be_a(Operand::Compiled) }
         end
       end
 
