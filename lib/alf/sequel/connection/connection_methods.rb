@@ -3,14 +3,15 @@ module Alf
     class Connection
       module ConnectionMethods
 
-        def connection_uri
+        def connection_uri(with_password = false)
           if conn_spec.is_a?(Hash)
             cs = Tuple(self.conn_spec)
-            adapter, host, port, database, user = cs.values_at(:adapter, :host, :port, :database, :user)
-            user = "#{user}@"        if user
-            host = "localhost"       if host.nil? and not(adapter =~ /sqlite/)
-            host = "#{host}:#{port}" if host and port
-            host = "/#{user}#{host}" if host or user
+            adapter, host, port, database, user, password = cs.values_at(:adapter, :host, :port, :database, :user, :password)
+            user = "#{user}:#{password}" if user and password and with_password
+            user = "#{user}@"            if user
+            host = "localhost"           if host.nil? and not(adapter =~ /sqlite/)
+            host = "#{host}:#{port}"     if host and port
+            host = "/#{user}#{host}"     if host or user
             "#{adapter}:/#{host}/#{database}"
           else
             conn_spec

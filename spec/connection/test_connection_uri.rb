@@ -3,7 +3,9 @@ module Alf
   module Sequel
     describe Connection, 'connection_uri' do
 
-      subject{ conn.connection_uri }
+      subject{ conn.connection_uri(with_password) }
+
+      let(:with_password){ false }
 
       context 'when build with an uri' do
         let(:conn){ Connection.new("somewhere/to/db.sqlite3") }
@@ -33,6 +35,19 @@ module Alf
         let(:conn){ Connection.new({:adapter => "postgres", :host => "athena", :port => 1234, :database => "sap"}) }
 
         it{ should eq("postgres://athena:1234/sap") }
+      end
+
+      context 'when build with a user/pass and with_password=false' do
+        let(:conn){ Connection.new({:adapter => "postgres", :host => "athena", :user => "buly", :password => "pass", :database => "sap"}) }
+
+        it{ should eq("postgres://buly@athena/sap") }
+      end
+
+      context 'when build with a user/pass and with_password=true' do
+        let(:conn){ Connection.new({:adapter => "postgres", :host => "athena", :user => "buly", :password => "pass", :database => "sap"}) }
+        let(:with_password){ true }
+
+        it{ should eq("postgres://buly:pass@athena/sap") }
       end
     end
   end
