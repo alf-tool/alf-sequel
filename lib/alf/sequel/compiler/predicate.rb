@@ -29,7 +29,7 @@ module Alf
         end
 
         def on_literal(sexpr)
-          ::Sequel.expr(sexpr.last)
+          sexpr.last.nil? ? nil : ::Sequel.expr(sexpr.last)
         end
 
         def on_eq(sexpr)
