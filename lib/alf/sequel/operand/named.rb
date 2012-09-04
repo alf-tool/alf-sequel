@@ -45,6 +45,10 @@ module Alf
           dataset.each(&Proc.new)
         end
 
+        def to_lispy
+          name.to_s
+        end
+
       private
 
         def dataset
