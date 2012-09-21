@@ -3,6 +3,15 @@ module Alf
   module Sequel
     describe Connection, "recognizes?" do
 
+      it "recognizes ::Sequel::Database objects" do
+        begin
+          db = ::Sequel.connect(sequel_database_memory)
+          Connection.recognizes?(db).should be_true
+        ensure
+          db.disconnect if db
+        end
+      end
+
       it "recognizes sqlite files" do
         Connection.recognizes?("#{sequel_database_path}").should be_true
       end

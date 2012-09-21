@@ -13,6 +13,8 @@ module Alf
         # uri, or a Hash that looks like a conn spec in Sequel; false otherwise
         def recognizes?(conn_spec)
           case conn_spec
+          when ::Sequel::Database
+            true
           when String
             require 'uri'
             uri = URI::parse(conn_spec) rescue nil

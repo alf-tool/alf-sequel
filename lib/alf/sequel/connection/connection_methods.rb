@@ -36,7 +36,7 @@ module Alf
         def sequel_db
           @sequel_db ||= begin
             require 'sequel' unless defined?(::Sequel)
-            ::Sequel.connect(conn_spec)
+            conn_spec.is_a?(::Sequel::Database) ? conn_spec : ::Sequel.connect(conn_spec)
           end
           block_given? ? yield(@sequel_db) : @sequel_db
         end
