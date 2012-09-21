@@ -4,12 +4,10 @@ module Alf
       module SchemaMethods
 
         def dataset(name)
-          raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
           sequel_db[name]
         end
 
         def iterator(name)
-          raise NoSuchRelvarError, "No such table `#{name}`" unless sequel_db.table_exists?(name)
           Operand::Named.new(self, name)
         end
 

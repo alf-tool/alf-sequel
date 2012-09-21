@@ -11,12 +11,6 @@ module Alf
         sap.relvar(:suppliers).value.size.should eq(5)
       end
 
-      it 'raises a NoSuchRelvarError if not found' do
-        lambda{
-          sap.relvar(:nosuchone)
-        }.should raise_error
-      end
-
     end
   end
 end
