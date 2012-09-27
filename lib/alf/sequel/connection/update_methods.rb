@@ -31,7 +31,7 @@ module Alf
         # Updates the relvar called `name`
         def update(name, computation, predicate)
           with_dataset(name, predicate) do |d|
-            d.update Tuple(computation)
+            d.update Tuple(computation).to_hash
           end
         end
 
