@@ -10,6 +10,7 @@ module Alf
 
         # Inserts `tuples` in the relvar called `name`
         def insert(name, tuples)
+          tuples = tuples.map{|t| t.to_hash}
           with_dataset(name) do |d|
             options = {:return => :primary_key}
             inserted_ids = d.multi_insert(tuples, options)

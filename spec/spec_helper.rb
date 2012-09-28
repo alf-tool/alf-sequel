@@ -43,7 +43,7 @@ module Helpers
         String :name
       end
       supplier_names_relation.each do |tuple|
-        c[:names].insert(tuple)
+        c[:names].insert(tuple.to_hash)
       end if values
     end
     Alf::Relvar.new(adapter, adapter.iterator(:names))
