@@ -29,6 +29,14 @@ module Alf
         }
       end
 
+      context 'when the operand is a renaming' do
+        let(:expr){ project(rename(suppliers, :sid => :supplier_id), [:supplier_id]) }
+
+        specify{
+          subject.sql.should eq("SELECT `t2`.`supplier_id` AS 'supplier_id' FROM (SELECT `t1`.`sid` AS 'supplier_id', `t1`.`name` AS 'name', `t1`.`status` AS 'status', `t1`.`city` AS 'city' FROM `suppliers` AS 't1') AS 't2'")
+        }
+      end
+
       context 'when the operand is not compilable' do
         let(:expr){ project(an_operand, [:sid, :name]) }
 

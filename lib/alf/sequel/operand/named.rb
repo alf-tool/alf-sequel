@@ -16,7 +16,7 @@ module Alf
 
         def compile(as)
           dataset = connection.dataset(:"#{name}___#{as}")
-          Operand::Compiled.new(connection, dataset, as)
+          Operand::Compiled.new(connection, dataset: dataset, as: as)
         end
 
         ### Operand

@@ -35,6 +35,14 @@ module Alf
         }
       end
 
+      context 'when the operand is a renaming' do
+        let(:expr){ restrict(rename(suppliers, :name => :sname), :sname => "Jones") }
+
+        specify{
+          subject.sql.should eq("SELECT * FROM (SELECT `t1`.`name` AS 'sname', `t1`.`sid` AS 'sid', `t1`.`status` AS 'status', `t1`.`city` AS 'city' FROM `suppliers` AS 't1') AS 't2' WHERE (`t2`.`sname` = 'Jones')")
+        }
+      end
+
     end
   end
 end

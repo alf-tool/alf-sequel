@@ -104,7 +104,7 @@ module Alf
 
       def on_rename(expr)
         rewrite(expr){|rw|
-          rw.operand.select(expr.complete_renaming.to_hash)
+          rw.operand.rename(expr.complete_renaming.to_hash, :alias => next_alias)
         }
       end
 
