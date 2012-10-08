@@ -12,8 +12,12 @@ module Alf
         :"t#{@as += 1}"
       end
 
-      def on_outside(expr)
-        recognized?(expr) ? expr.compile(next_alias) : super
+      def on_leaf_operand(expr)
+        if Algebra::Operand::Named===expr && Connection===expr.connection
+          expr.connection.cog(expr.name, :alias => next_alias)
+        else
+          expr.to_cog
+        end
       end
 
     ### non relational
@@ -142,14 +146,12 @@ module Alf
         if block_given? and rewrited.operands.all?{|op| recognized?(op) }
           catch(:pass){ rewrited = yield(rewrited) }
         end
-        unless recognized?(rewrited)
-          rewrited = engine.call(rewrited)
-        end
+        rewrited = engine.call(rewrited) unless recognized?(rewrited)
         rewrited
       end
 
       def recognized?(op)
-        op.is_a?(Operand)
+        op.is_a?(Cog)
       end
 
       def engine

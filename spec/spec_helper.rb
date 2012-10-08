@@ -2,6 +2,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'alf-sequel'
 require "rspec"
 require 'path'
+require 'letters'
 
 module Helpers
 
@@ -46,7 +47,8 @@ module Helpers
         c[:names].insert(tuple.to_hash)
       end if values
     end
-    Alf::Relvar.new(adapter, adapter.iterator(:names))
+    named = Alf::Algebra.named_operand(:names, adapter)
+    named.to_relvar
   end
 
   def names_db

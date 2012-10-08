@@ -7,8 +7,12 @@ module Alf
           sequel_db[name]
         end
 
-        def iterator(name)
-          Operand::Named.new(self, name)
+        def cog(name, opts={})
+          if as = opts[:alias]
+            Cog.new(self, dataset: dataset(:"#{name}___#{as}"), as: as)
+          else
+            Cog.new(self, dataset: dataset(name))
+          end
         end
 
         def heading(name)

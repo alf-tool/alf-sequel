@@ -4,15 +4,15 @@ module CompilerHelpers
   include Alf::Lang::Functional
 
   def suppliers
-    sap.iterator(:suppliers)
+    Alf::Algebra.named_operand(:suppliers, sap)
   end
 
   def supplies
-    sap.iterator(:supplies)
+    Alf::Algebra.named_operand(:supplies, sap)
   end
 
   def parts
-    sap.iterator(:parts)
+    Alf::Algebra.named_operand(:parts, sap)
   end
 
   def _context
@@ -20,7 +20,7 @@ module CompilerHelpers
   end
 
   def an_operand
-    Alf::Tools::FakeOperand.new(sap)
+    Alf::Algebra::Operand::Fake.new(sap)
   end
 
   def compile(expr)
