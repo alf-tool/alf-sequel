@@ -1,6 +1,7 @@
 require 'alf'
 require_relative 'sequel/version'
 require_relative 'sequel/loader'
+require_relative 'sequel/adapter'
 require_relative 'sequel/connection'
 require_relative 'sequel/compiler'
 require_relative 'sequel/cog'

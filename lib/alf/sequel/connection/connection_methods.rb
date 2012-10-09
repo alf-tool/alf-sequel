@@ -34,10 +34,7 @@ module Alf
 
         # Yields a Sequel::Database object
         def sequel_db
-          @sequel_db ||= begin
-            require 'sequel' unless defined?(::Sequel)
-            conn_spec.is_a?(::Sequel::Database) ? conn_spec : ::Sequel.connect(conn_spec)
-          end
+          @sequel_db ||= Adapter.sequel_db(conn_spec)
           block_given? ? yield(@sequel_db) : @sequel_db
         end
 

@@ -3,6 +3,10 @@ module Alf
     class Connection
       module SchemaMethods
 
+        def knows?(name)
+          sequel_db.table_exists?(name)
+        end
+
         def dataset(name)
           sequel_db[name]
         end
