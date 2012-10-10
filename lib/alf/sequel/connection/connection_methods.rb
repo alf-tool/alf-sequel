@@ -13,8 +13,10 @@ module Alf
             host = "#{host}:#{port}"     if host and port
             host = "/#{user}#{host}"     if host or user
             "#{adapter}:/#{host}/#{database}"
-          else
+          elsif conn_spec.is_a?(String)
             conn_spec
+          else
+            "Alf::Sequel::Connection(#{conn_spec})"
           end
         end
 
