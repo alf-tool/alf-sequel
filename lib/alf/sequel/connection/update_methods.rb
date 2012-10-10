@@ -8,6 +8,16 @@ module Alf
           sequel_db.transaction(&bl)
         end
 
+        def lock(name, mode, &bl)
+          with_dataset(name){|ds|
+            if ds.respond_to?(:lock)
+              ds.lock(mode.to_s.upcase, &bl)
+            else
+              yield
+            end
+          }
+        end
+
         # Inserts `tuples` in the relvar called `name`
         def insert(name, tuples)
           tuples = tuples.map{|t| t.to_hash}
