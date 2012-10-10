@@ -16,7 +16,7 @@ module Alf
       include ConnectionMethods
       include UpdateMethods
 
-      alias :to_s :connection_uri
+      alias_method :to_s, :connection_uri
 
     end # class Connection
   end # module Sequel
