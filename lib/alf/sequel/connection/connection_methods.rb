@@ -25,7 +25,7 @@ module Alf
         end
 
         def close
-          @sequel_db.disconnect if @sequel_db
+          @sequel_db.disconnect if @sequel_db && @sequel_db != conn_spec
         end
 
         def with_sequel_db
