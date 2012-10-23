@@ -87,7 +87,8 @@ module Alf
           Predicate.new(:qualifier => rw.left.as).call(pred)
         else
           # (NOT) EXISTS (SELECT ...)
-          filter = ::Sequel.expr Hash[rw.left.qualify(commons).zip(rw.right.qualify(commons))]
+          filter = Hash[rw.left.qualify(commons).zip(rw.right.qualify(commons))]
+          filter = ::Sequel.expr filter
           filter = rw.right.filter(filter)
           filter.dataset.exists
         end
