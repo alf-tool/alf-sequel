@@ -21,6 +21,22 @@ module Alf
         }
       end
 
+      context 'when the operand is a restriction on a key part' do
+        let(:expr){ project(restrict(supplies, Predicate.eq(:sid, 1)), [:pid]) }
+
+        specify{
+          subject.sql.should eq("SELECT `t1`.`pid` FROM `supplies` AS 't1' WHERE (`t1`.`sid` = 1)")
+        }
+      end
+
+      context 'when the operand is a restriction on the key' do
+        let(:expr){ project(restrict(suppliers, Predicate.eq(:sid, 1)), [:sid]) }
+
+        specify{
+          subject.sql.should eq("SELECT `t1`.`sid` FROM `suppliers` AS 't1' WHERE (`t1`.`sid` = 1)")
+        }
+      end
+
       context 'when the operand is fully compilable (allbut, distinct)' do
         let(:expr){ project(suppliers, [:sid, :name, :status], :allbut => true) }
 
