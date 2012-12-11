@@ -41,6 +41,12 @@ module Alf
           it{ should eq("(`x` = 12)") }
         end
 
+        context 'neq(var, literal)' do
+          let(:expr){ p.neq(:x, 12) }
+
+          it{ should eq("(`x` != 12)") }
+        end
+
         context 'eq(var, nil)' do
           let(:expr){ p.eq(:x, nil) }
 

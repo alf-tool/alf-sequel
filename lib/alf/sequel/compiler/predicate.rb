@@ -37,11 +37,15 @@ module Alf
           ::Sequel.expr(left => right)
         end
 
+        def on_neq(sexpr)
+          left, right = apply(sexpr.left), apply(sexpr.right)
+          ~::Sequel.expr(left => right)
+        end
+
         def on_dyadic_comp(sexpr)
           left, right = apply(sexpr.left), apply(sexpr.right)
           left.send(sexpr.operator_symbol, right)
         end
-        alias :on_neq :on_dyadic_comp
         alias :on_lt  :on_dyadic_comp
         alias :on_lte :on_dyadic_comp
         alias :on_gt  :on_dyadic_comp
