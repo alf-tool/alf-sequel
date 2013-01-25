@@ -3,7 +3,6 @@ task :fixtures do
   require "sequel"
   require "sqlite3"
   require 'alf-sequel'
-  require 'letters'
 
   path = Path.relative("../spec/fixtures/sap.db")
   path.unlink if path.exist?

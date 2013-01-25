@@ -7,14 +7,13 @@ group :runtime do
 end
 
 group :test do
-  gem "rake", "~> 0.9.2"
-  gem "rspec", "~> 2.10"
+  gem "rake", "~> 10.0"
+  gem "rspec", "~> 2.12"
   gem "sqlite3", "~> 1.3",      :platforms => ['mri', 'rbx']
   gem "jdbc-sqlite3", "~> 3.7", :platforms => ['jruby']
 end
 
 group :development do
-  gem "rake", "~> 0.9.2"
-  gem "rspec", "~> 2.10"
-  gem "letters"
+  gem "rake", "~> 10.0"
+  gem "rspec", "~> 2.12"
 end

@@ -2,7 +2,6 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'alf-sequel'
 require "rspec"
 require 'path'
-require 'letters'
 
 module Helpers
 
