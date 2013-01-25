@@ -2,7 +2,6 @@ task :fixtures do
   require 'path'
   require "sequel"
   require "sqlite3"
-  require 'alf'
   require 'alf-sequel'
   require 'letters'
 

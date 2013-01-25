@@ -1,2 +1,2 @@
-require "alf"
+require "alf-core"
 require "sequel"

@@ -1,4 +1,3 @@
-require 'alf'
 require_relative 'sequel/version'
 require_relative 'sequel/loader'
 require_relative 'sequel/adapter'

@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
                  collect{|x| x[(1+here.size)..-1]}
   s.add_development_dependency("rake", "~> 0.9.2")
   s.add_development_dependency("rspec", "~> 2.10")
-  s.add_dependency("alf", "~> 0.13.0")
+  s.add_dependency("alf-core", "~> 0.13.0")
   s.add_dependency("sequel", "~> 3.36")
 end

@@ -21,7 +21,7 @@ variables:
     - http://github.com/blambeau/alf-sequel
     - http://github.com/blambeau/alf
   dependencies:
-    - {name: alf,       version: "~> 0.13.0", groups: [runtime]}
+    - {name: alf-core,  version: "~> 0.13.0", groups: [runtime]}
     - {name: sequel,    version: "~> 3.36",   groups: [runtime]}
     - {name: rake,      version: "~> 0.9.2",  groups: [development]}
     - {name: rspec,     version: "~> 2.10",   groups: [development]}
