@@ -1,11 +1,11 @@
 # Alf::Sequel
 
-[![Build Status](https://secure.travis-ci.org/blambeau/alf-sequel.png)](http://travis-ci.org/blambeau/alf-sequel)
-[![Dependency Status](https://gemnasium.com/blambeau/alf-sequel.png)](https://gemnasium.com/blambeau/alf-sequel)
+[![Build Status](https://secure.travis-ci.org/alf-tool/alf-sequel.png)](http://travis-ci.org/alf-tool/alf-sequel)
+[![Dependency Status](https://gemnasium.com/alf-tool/alf-sequel.png)](https://gemnasium.com/alf-tool/alf-sequel)
 
 A sequel adapter for alf
 
 ## Links
 
-http://github.com/blambeau/alf-sequel
-http://github.com/blambeau/alf
+http://github.com/alf-tool/alf
+http://github.com/alf-tool/alf-sequel
