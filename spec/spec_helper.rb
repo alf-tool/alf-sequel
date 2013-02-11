@@ -2,6 +2,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'alf-sequel'
 require "rspec"
 require 'path'
+require_relative 'fixtures/sap.rb'
 
 module Helpers
 
@@ -19,6 +20,10 @@ module Helpers
 
   def sap
     @sap ||= Alf.connect Path.relative("fixtures/sap.db")
+  end
+
+  def sap_memory
+    Alf.connect(SAP.create!(sequel_database_memory), schema_cache: false)
   end
 
 end
