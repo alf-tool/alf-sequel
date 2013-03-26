@@ -83,6 +83,10 @@ module Alf
         Cog.new connection, self.opts.merge(opts)
       end
 
+      def to_s
+        "Alf::Sequel::Cog|#{sql}"
+      end
+
     end # class Operand
   end # module Sequel
 end # module Alf
