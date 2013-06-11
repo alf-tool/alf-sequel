@@ -9,7 +9,7 @@ module Alf
         let(:dataset)  { sap.cog(:suppliers).dataset }
         let(:compiled) { compiler.call(expr)         }
 
-        subject{ compiled.to_s(dataset) }
+        subject{ dataset.literal(compiled) }
 
         context 'tautology' do
           let(:expr){ p.tautology }

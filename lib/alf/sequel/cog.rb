@@ -29,7 +29,7 @@ module Alf
       end
 
       def rename(attrs, opts)
-        branch dataset: dataset.select(qualify(attrs)).from_self(opts),
+        branch dataset: dataset.select(*qualify(attrs)).from_self(opts),
                     as: opts[:alias]
       end
 
@@ -73,7 +73,7 @@ module Alf
         when Symbol
           ::Sequel.qualify(as, attributes)
         when Hash
-          Hash[attributes.each_pair.map{|k,v| [::Sequel.qualify(as, k), v] }]
+          attributes.map{|k,v| ::Sequel.as(::Sequel.qualify(as, k), v) }
         else
           attributes.map{|a| ::Sequel.qualify(as, a)}
         end

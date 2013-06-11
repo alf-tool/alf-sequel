@@ -25,7 +25,7 @@ module Alf
 
         def _run
           connection.with_dataset(@relvar_name) do |d|
-            @insert_result = d.insert_multiple(@inserted){|t| t.to_hash}
+            @insert_result = @inserted.map{|t| d.insert(t.to_hash) }
           end
         end
 
