@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
                  inject([]){|files, pattern| files + Dir[File.join(here, pattern.strip)]}.
                  collect{|x| x[(1+here.size)..-1]}
   s.add_development_dependency("rake", "~> 10.0")
-  s.add_development_dependency("rspec", "~> 2.12")
+  s.add_development_dependency("rspec", "~> 2.13")
   s.add_dependency("alf-core", "~> 0.13.0")
-  s.add_dependency("sequel", "~> 3.36")
+  s.add_dependency("sequel", "~> 3.48")
 end
