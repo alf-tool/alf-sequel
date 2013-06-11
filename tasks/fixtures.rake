@@ -1,7 +1,6 @@
 task :fixtures do
   require 'path'
   require "sequel"
-  require "sqlite3"
   require 'alf-sequel'
   require_relative '../spec/fixtures/sap'
 
