@@ -85,6 +85,9 @@ module Alf
           # (NOT) IN (SELECT ...)
           pred = ::Alf::Predicate.in(commons.first, rw.right.select(commons).dataset)
           Predicate.new(:qualifier => rw.left.as).call(pred)
+        elsif commons.size==0
+          # (NOT) EXISTS (SELECT ... no join condition ...)
+          rw.right.dataset.exists
         else
           # (NOT) EXISTS (SELECT ...)
           filter = Hash[rw.left.qualify(commons).zip(rw.right.qualify(commons))]

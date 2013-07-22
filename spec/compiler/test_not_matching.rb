@@ -5,6 +5,14 @@ module Alf
 
       subject{ compile(expr) }
 
+      context 'when no common attributes' do
+        let(:expr){ not_matching(suppliers, project(supplies, [:part_id])) }
+
+        specify do
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE NOT (EXISTS (SELECT `t2`.`part_id` FROM `supplies` AS 't2'))")
+        end
+      end
+
       context 'when only one common attributes' do
         let(:expr){ not_matching(suppliers, supplies) }
 
