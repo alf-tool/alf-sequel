@@ -15,7 +15,7 @@ module Helpers
   end
 
   def sequel_database_memory
-    "#{Alf::Sequel::Adapter.sqlite_protocol}:memory"
+    "#{Alf::Sequel::Adapter.sqlite_protocol}::memory:"
   end
 
   def sap
