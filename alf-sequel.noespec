@@ -2,6 +2,8 @@ template-info:
   name: alf.noe
   version: 0.1.0
   manifest:
+    tasks/test.rake:
+      safe-override: false
     Gemfile:
       safe-override: false
 variables:
@@ -23,5 +25,5 @@ variables:
   dependencies:
     - {name: alf-core,  version: "~> 0.13.0", groups: [runtime]}
     - {name: sequel,    version: "~> 3.48",   groups: [runtime]}
-    - {name: rake,      version: "~> 10.0",   groups: [development]}
-    - {name: rspec,     version: "~> 2.13",   groups: [development]}
+    - {name: rake,      version: "~> 10.1",   groups: [development]}
+    - {name: rspec,     version: "~> 2.14",   groups: [development]}
