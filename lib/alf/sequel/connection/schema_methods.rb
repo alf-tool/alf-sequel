@@ -45,6 +45,16 @@ module Alf
           Keys.new(indexes)
         end
 
+        def migrate!(opts)
+          unless f = opts.migrations_folder
+            raise Alf::ConfigError, "Migrations folder not set"
+          end
+          with_sequel_db do |db|
+            ::Sequel.extension(:migration)
+            ::Sequel::Migrator.apply(db, f)
+          end
+        end
+
       private
 
         def dbtype_to_ruby_type(info)
