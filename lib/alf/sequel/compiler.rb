@@ -14,7 +14,7 @@ module Alf
 
       def on_leaf_operand(expr)
         if Algebra::Operand::Named===expr
-          expr.connection.cog(expr.name, :alias => next_alias)
+          expr.connection.cog(expr.name, expr, :alias => next_alias)
         else
           expr.to_cog
         end

@@ -11,7 +11,7 @@ module Alf
           sequel_db[name]
         end
 
-        def cog(name, opts={})
+        def cog(name, expr = nil, opts = {})
           if as = opts[:alias]
             Cog.new(self, dataset: dataset(:"#{name}___#{as}"), as: as)
           else
