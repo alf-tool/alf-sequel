@@ -61,6 +61,10 @@ module Alf
                     as: opts[:alias]
       end
 
+      def limit(*args, &bl)
+        branch dataset: dataset.limit(*args, &bl)
+      end
+
     ### compilation tools
 
       def sql

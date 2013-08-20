@@ -41,10 +41,8 @@ module Alf
 
       def on_sort(expr)
         rewrite(expr){|rw|
-          operand = rw.operand
-          ordering = expr.ordering.to_a.map{|(col,dir)|
-            ::Sequel.send(dir, operand.qualify(col))
-          }
+          operand  = rw.operand
+          ordering = to_sequel_ordering(operand, expr.ordering)
           operand.order(*ordering)
         }
       end
@@ -99,6 +97,15 @@ module Alf
 
       alias :on_minus :pass
 
+      def on_page(expr)
+        rewrite(expr){|rw|
+          index, size, ordering  = expr.page_index, expr.page_size, expr.ordering
+          operand, offset, limit = rw.operand, (index.abs - 1) * size, size
+          ordering = to_sequel_ordering(operand, index >= 0 ? ordering : ordering.reverse)
+          operand.order(*ordering).limit(offset , limit)
+        }
+      end
+
       def on_project(expr)
         rewrite(expr){|rw|
           compiled = rw.operand.select(expr.stay_attributes)
@@ -137,6 +144,12 @@ module Alf
 
     private
 
+      def to_sequel_ordering(operand, ordering)
+        ordering.to_a.map{|(col,dir)|
+          ::Sequel.send(dir, operand.qualify(col))
+        }
+      end
+
       def key_preserving?(expr)
         expr.key_preserving?
       rescue NotSupportedError
@@ -152,6 +165,16 @@ module Alf
         end
         rewrited = engine.call(rewrited) unless recognized?(rewrited)
         rewrited
+      end
+
+      def copy_and_apply(expr)
+        if expr.is_a?(Algebra::Operator)
+          expr.with_operands(*expr.operands.map{|op|
+            apply(op).tap{|cog| cog.expr = expr }
+          })
+        else
+          expr
+        end
       end
 
       def recognized?(op)
