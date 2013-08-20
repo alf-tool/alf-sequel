@@ -99,7 +99,7 @@ module Alf
 
       def on_page(expr)
         rewrite(expr){|rw|
-          index, size, ordering  = expr.page_index, expr.page_size, expr.ordering
+          index, size, ordering  = expr.page_index, expr.page_size, expr.full_ordering
           operand, offset, limit = rw.operand, (index.abs - 1) * size, size
           ordering = to_sequel_ordering(operand, index >= 0 ? ordering : ordering.reverse)
           operand.order(*ordering).limit(offset , limit)
@@ -159,21 +159,28 @@ module Alf
     private
 
       def rewrite(expr)
+        # copy and apply on expr. the result is the same expression, but
+        # with cogs instead of operands
         rewrited = copy_and_apply(expr)
-        if block_given? and rewrited.operands.all?{|op| recognized?(op) }
-          catch(:pass){ rewrited = yield(rewrited) }
-        end
-        rewrited = engine.call(rewrited) unless recognized?(rewrited)
-        rewrited
-      end
 
-      def copy_and_apply(expr)
-        if expr.is_a?(Algebra::Operator)
-          expr.with_operands(*expr.operands.map{|op|
-            apply(op).tap{|cog| cog.expr = expr }
-          })
+        # Continue compilation process provided all operands are recognized.
+        if block_given? and rewrited.operands.all?{|op| recognized?(op) }
+          # Compilation of predicates may throw a pass
+          catch(:pass){
+            rewrited = yield(rewrited)
+          }
+        end
+
+        # If the result is itself recognized, proceed
+        # Otherwise, give a change to the upper-stage compiler with a proxy
+        if recognized?(rewrited)
+          rewrited
         else
-          expr
+          operands = rewrited.operands.map{|op|
+            Algebra::Operand::Proxy.new(op)
+          }
+          rewrited = rewrited.with_operands(*operands)
+          engine.call(rewrited)
         end
       end
 
