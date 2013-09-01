@@ -3,7 +3,8 @@ module Alf
     class Cog
       include Engine::Cog
 
-      def initialize(connection, opts)
+      def initialize(expr, connection, opts)
+        super(expr)
         @connection = connection
         @opts = opts
       end
@@ -24,45 +25,45 @@ module Alf
 
     ### Delegation to Dataset, that is, facade over ::Sequel itself
 
-      def select(attrs)
-        branch dataset: dataset.select(*qualify(attrs))
+      def select(expr, attrs)
+        branch expr, dataset: dataset.select(*qualify(attrs))
       end
 
-      def rename(attrs, opts)
-        branch dataset: dataset.select(*qualify(attrs)).from_self(opts),
-                    as: opts[:alias]
+      def rename(expr, attrs, opts)
+        branch expr, dataset: dataset.select(*qualify(attrs)).from_self(opts),
+                          as: opts[:alias]
       end
 
-      def distinct(*args, &bl)
-        branch dataset: dataset.distinct(*args, &bl)
+      def distinct(expr, *args, &bl)
+        branch expr, dataset: dataset.distinct(*args, &bl)
       end
 
-      def order(*args, &bl)
-        branch dataset: dataset.order(*args, &bl)
+      def order(expr, *args, &bl)
+        branch expr, dataset: dataset.order(*args, &bl)
       end
 
-      def filter(*args, &bl)
-        branch dataset: dataset.filter(*args, &bl)
+      def filter(expr, *args, &bl)
+        branch expr, dataset: dataset.filter(*args, &bl)
       end
 
-      def intersect(other, opts={})
-        branch dataset: dataset.intersect(other.dataset, opts),
-                    as: opts[:alias]
+      def intersect(expr, other, opts={})
+        branch expr, dataset: dataset.intersect(other.dataset, opts),
+                          as: opts[:alias]
       end
 
-      def join(other, cols, opts={})
+      def join(expr, other, cols, opts={})
         join = dataset.inner_join(other.dataset, cols, :table_alias => opts[:alias])
-        branch dataset: join.from_self(opts),
-                    as: opts[:alias]
+        branch expr, dataset: join.from_self(opts),
+                          as: opts[:alias]
       end
 
-      def union(other, opts={})
-        branch dataset: dataset.union(other.dataset, opts),
-                    as: opts[:alias]
+      def union(expr, other, opts={})
+        branch expr, dataset: dataset.union(other.dataset, opts),
+                          as: opts[:alias]
       end
 
-      def limit(*args, &bl)
-        branch dataset: dataset.limit(*args, &bl)
+      def limit(expr, *args, &bl)
+        branch expr, dataset: dataset.limit(*args, &bl)
       end
 
     ### compilation tools
@@ -83,8 +84,8 @@ module Alf
         end
       end
 
-      def branch(opts = {})
-        Cog.new connection, self.opts.merge(opts)
+      def branch(expr, opts = {})
+        Cog.new expr, connection, self.opts.merge(opts)
       end
 
       def to_s

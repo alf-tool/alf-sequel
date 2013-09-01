@@ -40,8 +40,8 @@ module Alf
           else
             filter = mr.tuple_extract.to_hash
             tuples = connection.cog(@relvar_name)
-                               .filter(filter)
-                               .select(pkey.to_a)
+                               .filter(nil, filter)
+                               .select(nil, pkey.to_a)
             Relation(tuples)
           end
         end

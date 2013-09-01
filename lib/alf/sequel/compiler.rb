@@ -29,13 +29,13 @@ module Alf
 
       def on_clip(expr)
         rewrite(expr){|rw|
-          rw.operand.select(expr.stay_attributes)
+          rw.operand.select(expr, expr.stay_attributes)
         }
       end
 
       def on_compact(expr)
         rewrite(expr){|rw|
-          rw.operand.distinct
+          rw.operand.distinct(expr)
         }
       end
 
@@ -43,7 +43,7 @@ module Alf
         rewrite(expr){|rw|
           operand  = rw.operand
           ordering = to_sequel_ordering(operand, expr.ordering)
-          operand.order(*ordering)
+          operand.order(expr, *ordering)
         }
       end
 
@@ -55,25 +55,25 @@ module Alf
 
       def on_intersect(expr)
         rewrite(expr){|rw|
-          rw.left.intersect(rw.right, :alias => next_alias)
+          rw.left.intersect(expr, rw.right, {:alias => next_alias})
         }
       end
 
       def on_join(expr)
         rewrite(expr){|rw|
-          rw.left.join(rw.right, expr.common_attributes.to_a, :alias => next_alias)
+          rw.left.join(expr, rw.right, expr.common_attributes.to_a, {:alias => next_alias})
         }
       end
 
       def on_matching(expr)
         rewrite(expr) do |rw|
-          rw.left.filter(matching2filter(expr, rw))
+          rw.left.filter(expr, matching2filter(expr, rw))
         end
       end
 
       def on_not_matching(expr)
         rewrite(expr) do |rw|
-          rw.left.filter(~matching2filter(expr, rw))
+          rw.left.filter(expr, ~matching2filter(expr, rw))
         end
       end
 
@@ -81,7 +81,7 @@ module Alf
         commons = expr.common_attributes.to_a
         if commons.size==1
           # (NOT) IN (SELECT ...)
-          pred = ::Alf::Predicate.in(commons.first, rw.right.select(commons).dataset)
+          pred = ::Alf::Predicate.in(commons.first, rw.right.select(expr, commons).dataset)
           Predicate.new(:qualifier => rw.left.as).call(pred)
         elsif commons.size==0
           # (NOT) EXISTS (SELECT ... no join condition ...)
@@ -90,7 +90,7 @@ module Alf
           # (NOT) EXISTS (SELECT ...)
           filter = Hash[rw.left.qualify(commons).zip(rw.right.qualify(commons))]
           filter = ::Sequel.expr filter
-          filter = rw.right.filter(filter)
+          filter = rw.right.filter(expr, filter)
           filter.dataset.exists
         end
       end
@@ -102,14 +102,14 @@ module Alf
           index, size, ordering  = expr.page_index, expr.page_size, expr.full_ordering
           operand, offset, limit = rw.operand, (index.abs - 1) * size, size
           ordering = to_sequel_ordering(operand, index >= 0 ? ordering : ordering.reverse)
-          operand.order(*ordering).limit(offset , limit)
+          operand.order(expr, *ordering).limit(expr, offset , limit)
         }
       end
 
       def on_project(expr)
         rewrite(expr){|rw|
-          compiled = rw.operand.select(expr.stay_attributes)
-          compiled = compiled.distinct unless key_preserving?(expr){ false }
+          compiled = rw.operand.select(expr, expr.stay_attributes)
+          compiled = compiled.distinct(expr) unless key_preserving?(expr){ false }
           compiled
         }
       end
@@ -119,14 +119,14 @@ module Alf
 
       def on_rename(expr)
         rewrite(expr){|rw|
-          rw.operand.rename(expr.complete_renaming.to_hash, :alias => next_alias)
+          rw.operand.rename(expr, expr.complete_renaming.to_hash, :alias => next_alias)
         }
       end
 
       def on_restrict(expr)
         rewrite(expr){|rw|
           filter = Predicate.new(:qualifier => rw.operand.as).call(rw.predicate)
-          rw.operand.filter(filter)
+          rw.operand.filter(expr, filter)
         }
       end
 
@@ -135,7 +135,7 @@ module Alf
 
       def on_union(expr)
         rewrite(expr){|rw|
-          rw.left.union(rw.right, :alias => next_alias)
+          rw.left.union(expr, rw.right, :alias => next_alias)
         }
       end
 
@@ -161,26 +161,26 @@ module Alf
       def rewrite(expr)
         # copy and apply on expr. the result is the same expression, but
         # with cogs instead of operands
-        rewrited = copy_and_apply(expr)
+        rewritten = copy_and_apply(expr)
 
         # Continue compilation process provided all operands are recognized.
-        if block_given? and rewrited.operands.all?{|op| recognized?(op) }
+        if block_given? and rewritten.operands.all?{|op| recognized?(op) }
           # Compilation of predicates may throw a pass
           catch(:pass){
-            rewrited = yield(rewrited)
+            rewritten = yield(rewritten)
           }
         end
 
         # If the result is itself recognized, proceed
         # Otherwise, give a change to the upper-stage compiler with a proxy
-        if recognized?(rewrited)
-          rewrited
+        if recognized?(rewritten)
+          rewritten
         else
-          operands = rewrited.operands.map{|op|
+          operands = rewritten.operands.map{|op|
             Algebra::Operand::Proxy.new(op)
           }
-          rewrited = rewrited.with_operands(*operands)
-          engine.call(rewrited)
+          rewritten = rewritten.with_operands(*operands)
+          engine.call(rewritten)
         end
       end
 

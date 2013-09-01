@@ -13,9 +13,9 @@ module Alf
 
         def cog(name, expr = nil, opts = {})
           if as = opts[:alias]
-            Cog.new(self, dataset: dataset(:"#{name}___#{as}"), as: as)
+            Cog.new(expr, self, dataset: dataset(:"#{name}___#{as}"), as: as)
           else
-            Cog.new(self, dataset: dataset(name))
+            Cog.new(expr, self, dataset: dataset(name))
           end
         end
 
