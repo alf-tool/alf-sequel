@@ -50,6 +50,16 @@ module Alf
     ### relational
 
       alias :on_extend :pass
+
+      def on_frame(expr)
+        rewrite(expr){|rw|
+          offset, limit, ordering  = expr.offset, expr.limit, expr.full_ordering
+          operand  = rw.operand
+          ordering = to_sequel_ordering(operand, ordering)
+          operand.order(expr, *ordering).limit(expr, limit, offset)
+        }
+      end
+
       alias :on_group  :pass
       alias :on_infer_heading :pass
 
