@@ -52,7 +52,7 @@ module Alf
       end
 
       def join(expr, other, cols, opts={})
-        join = dataset.inner_join(other.dataset, cols, :table_alias => opts[:alias])
+        join = dataset.from_self.inner_join(other.dataset, cols, :table_alias => opts[:alias])
         branch expr, dataset: join.from_self(opts),
                           as: opts[:alias]
       end
