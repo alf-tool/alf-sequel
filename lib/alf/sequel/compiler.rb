@@ -53,7 +53,7 @@ module Alf
 
       def on_frame(expr)
         rewrite(expr){|rw|
-          offset, limit, ordering  = expr.offset, expr.limit, expr.full_ordering
+          offset, limit, ordering  = expr.offset, expr.limit, expr.total_ordering
           operand  = rw.operand
           ordering = to_sequel_ordering(operand, ordering)
           operand.order(expr, *ordering).limit(expr, limit, offset)
@@ -109,7 +109,7 @@ module Alf
 
       def on_page(expr)
         rewrite(expr){|rw|
-          index, size, ordering  = expr.page_index, expr.page_size, expr.full_ordering
+          index, size, ordering  = expr.page_index, expr.page_size, expr.total_ordering
           operand, offset, limit = rw.operand, (index.abs - 1) * size, size
           ordering = to_sequel_ordering(operand, index >= 0 ? ordering : ordering.reverse)
           operand.order(expr, *ordering).limit(expr, offset , limit)
@@ -155,8 +155,9 @@ module Alf
     private
 
       def to_sequel_ordering(operand, ordering)
-        ordering.to_a.map{|(col,dir)|
-          ::Sequel.send(dir, operand.qualify(col))
+        ordering.to_a.map{|(sel,dir)|
+          raise NotSupportedError if sel.composite?
+          ::Sequel.send(dir, operand.qualify(sel.outcoerce))
         }
       end
 
