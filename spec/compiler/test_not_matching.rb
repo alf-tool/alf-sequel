@@ -9,7 +9,7 @@ module Alf
         let(:expr){ not_matching(suppliers, project(supplies, [:part_id])) }
 
         specify do
-          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE NOT (EXISTS (SELECT `t2`.`part_id` FROM `supplies` AS 't2'))")
+          subject.sql.should eq("SELECT * FROM `suppliers` AS 't1' WHERE NOT (EXISTS (SELECT DISTINCT `t2`.`part_id` FROM `supplies` AS 't2'))")
         end
       end
 
