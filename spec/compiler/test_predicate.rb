@@ -23,8 +23,8 @@ module Alf
           it{ should eq("(1 = 0)") }
         end
 
-        context 'var_ref' do
-          let(:expr){ p.var_ref(:x) }
+        context 'identifier' do
+          let(:expr){ p.identifier(:x) }
 
           it{ should eq("`x`") }
         end

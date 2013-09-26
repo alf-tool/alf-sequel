@@ -200,7 +200,7 @@ module Alf
       end
 
       def engine
-        @engine ||= Engine::Compiler.new
+        @engine ||= Alf::Compiler::Default.new
       end
 
     end # class Compiler
