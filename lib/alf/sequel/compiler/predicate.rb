@@ -20,7 +20,7 @@ module Alf
           ::Sequel::SQL::BooleanConstant.new(false)
         end
 
-        def on_var_ref(sexpr)
+        def on_identifier(sexpr)
           if qualifier = options[:qualifier]
             ::Sequel.qualify(qualifier, sexpr.last)
           else
@@ -52,7 +52,7 @@ module Alf
         alias :on_gte :on_dyadic_comp
 
         def on_in(sexpr)
-          left = apply(sexpr.var_ref)
+          left = apply(sexpr.identifier)
           ::Sequel.expr(left => sexpr.values)
         end
 

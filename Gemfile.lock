@@ -1,12 +1,18 @@
-GIT
-  remote: git://github.com/alf-tool/alf-core.git
-  revision: f6092c9eeb53d87ded21e5248b9e131cf4febd46
+PATH
+  remote: ../alf-core
   specs:
     alf-core (0.14.0)
       domain (~> 1.0)
       myrrha (~> 3.0)
       path (~> 1.3)
-      sexpr (~> 0.5.1)
+      sexpr (~> 0.6.0)
+
+PATH
+  remote: ../alf-sql
+  specs:
+    alf-sql (0.14.0)
+      alf-core (~> 0.14.0)
+      sexpr (~> 0.6.0)
 
 GEM
   remote: http://rubygems.org/
@@ -27,7 +33,7 @@ GEM
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.1)
     sequel (3.48.0)
-    sexpr (0.5.1)
+    sexpr (0.6.0)
     sqlite3 (1.3.7)
 
 PLATFORMS
@@ -36,6 +42,7 @@ PLATFORMS
 
 DEPENDENCIES
   alf-core!
+  alf-sql!
   jdbc-sqlite3 (~> 3.7)
   rake (~> 10.1)
   rspec (~> 2.14)

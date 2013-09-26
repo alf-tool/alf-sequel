@@ -4,7 +4,7 @@ module Alf
       include Engine::Cog
 
       def initialize(expr, connection, opts)
-        super(expr)
+        super(expr, nil)
         @connection = connection
         @opts = opts
       end
