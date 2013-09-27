@@ -12,7 +12,7 @@ module Alf
         end
 
         def cog(name, expr = nil)
-          expr = Algebra::Operand::Named.new(name) unless expr
+          expr = Algebra::Operand::Named.new(name, self) unless expr
           compiler.on_leaf_operand(expr)
         end
 
