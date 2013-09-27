@@ -23,7 +23,11 @@ module Alf
             #   puts subject.sql
             # end
 
-            subject{ conn.parse(query.alf).to_cog }
+            let(:expr){
+              conn.parse(query.alf)
+            }
+
+            subject{ expr.to_cog }
 
             if query.sqlizable?
 
@@ -32,6 +36,14 @@ module Alf
               end
 
               it 'should be valid SQL for the DBMS considered' do
+                begin
+                  sql = subject.sexpr.to_sql
+                  conn.adapter_connection.dataset(sql).to_a
+                rescue => ex
+                  $stderr.puts
+                  $stderr.puts sql
+                  $stderr.puts ex.message
+                end
               end
             end
 
