@@ -2,7 +2,7 @@ require 'spec_helper'
 module Alf
   module Sequel
     unless Alf::Test.environment == :native
-      describe Translator do
+      describe Compiler do
 
         def conn
           @conn ||= Alf::Test::Sap.connect
@@ -12,19 +12,10 @@ module Alf
           conn.adapter_connection.close!
         end
 
-        def translator
-          conn.adapter_connection.translator
-        end
-
-        subject{ translator.call(sql_cog.sexpr) }
-
         Alf::Test::Sap.each_query do |query|
-          next unless query.sqlizable?
+          #next unless query.alf =~ /DEE/
 
           context "on #{query}" do
-            let(:alf_ast){ conn.parse(query.alf) }
-            let(:sql_cog){ Alf::Sql::Compiler.new.call(alf_ast) }
-
             # before do
             #   puts "---"
             #   puts query['query']
@@ -32,11 +23,19 @@ module Alf
             #   puts subject.sql
             # end
 
-            it 'should lead to a valid dataset' do
-              subject.should be_a(::Sequel::Dataset)
+            subject{ conn.parse(query.alf).to_cog }
+
+            if query.sqlizable?
+
+              it 'should lead to a Sequel::Cog' do
+                subject.should be_a(Cog)
+              end
+
+              it 'should be valid SQL for the DBMS considered' do
+              end
             end
 
-            it 'should be valid SQL for the DBMS considered' do
+            it 'should run without problem' do
               lambda{
                 subject.to_a
               }.should_not(raise_error)
