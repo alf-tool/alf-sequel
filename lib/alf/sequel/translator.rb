@@ -94,7 +94,7 @@ module Alf
       end
 
       def on_table_as(sexpr)
-        ::Sequel.as(sexpr.table_name, sexpr.as_name)
+        ::Sequel.as(sexpr.table_name.to_sym, sexpr.as_name)
       end
 
       def on_order_by_clause(sexpr)
