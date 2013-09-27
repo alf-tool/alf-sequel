@@ -14,6 +14,8 @@ group :test do
   gem "rspec", "~> 2.14"
   gem "sqlite3", "~> 1.3",      :platforms => ['mri', 'rbx']
   gem "jdbc-sqlite3", "~> 3.7", :platforms => ['jruby']
+  gem "alf-test", path: "../alf-test"
+  gem "pg"
 end
 
 group :development do

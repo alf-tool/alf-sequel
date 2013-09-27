@@ -38,7 +38,7 @@ module Alf
         def with_dataset(name, predicate = nil)
           ds = name.is_a?(Symbol) ? sequel_db[name] : name
           if predicate && !predicate.tautology?
-            ds = ds.filter(Compiler::Predicate.call(predicate))
+            ds = ds.where(Translator.new(sequel_db).call(predicate.sexpr))
           end
           yield(ds) if block_given?
         end

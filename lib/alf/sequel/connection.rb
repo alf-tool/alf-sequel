@@ -6,7 +6,7 @@ module Alf
     class Connection < Alf::Adapter::Connection
 
       def compiler
-        Compiler.new
+        @compiler ||= Compiler.new(self)
       end
 
       require_relative 'connection/schema_methods'

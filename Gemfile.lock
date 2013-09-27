@@ -14,6 +14,13 @@ PATH
       alf-core (~> 0.14.0)
       sexpr (~> 0.6.0)
 
+PATH
+  remote: ../alf-test
+  specs:
+    alf-test (0.14.0)
+      alf-core (~> 0.14.0)
+      path (~> 1.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -23,6 +30,7 @@ GEM
     myrrha (3.0.0)
       domain (~> 1.0)
     path (1.3.3)
+    pg (0.16.0)
     rake (10.1.0)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -43,7 +51,9 @@ PLATFORMS
 DEPENDENCIES
   alf-core!
   alf-sql!
+  alf-test!
   jdbc-sqlite3 (~> 3.7)
+  pg
   rake (~> 10.1)
   rspec (~> 2.14)
   sequel (~> 3.48)
