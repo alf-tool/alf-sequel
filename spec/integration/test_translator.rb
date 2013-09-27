@@ -1,9 +1,21 @@
-require 'translator_helper'
+require 'spec_helper'
 module Alf
   module Sequel
     describe Translator do
 
-      subject{ Translator.new(db).call(sql_cog.sexpr) }
+      def conn
+        @conn ||= Alf::Test::Sap.connect
+      end
+
+      after(:each) do
+        conn.adapter_connection.close!
+      end
+
+      def translator
+        conn.adapter_connection.translator
+      end
+
+      subject{ translator.call(sql_cog.sexpr) }
 
       Alf::Test::Sap.each_query do |query|
         next unless query.sqlizable?
@@ -19,11 +31,16 @@ module Alf
           #   puts subject.sql
           # end
 
-          it{ should be_a(::Sequel::Dataset) }
+          it 'should lead to a valid dataset' do
+            subject.should be_a(::Sequel::Dataset)
+            lambda{
+              subject.to_a
+            }.should_not(raise_error)
+          end
+
         end
       end
 
     end
   end
 end
-  

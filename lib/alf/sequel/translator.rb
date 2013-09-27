@@ -2,10 +2,10 @@ module Alf
   module Sequel
     class Translator < Sexpr::Processor
 
-      def initialize(db)
-        @db = db
+      def initialize(connection)
+        @connection = connection
       end
-      attr_reader :db
+      attr_reader :connection
 
       def on_with_exp(sexpr)
         dataset = apply(sexpr.select_exp)
@@ -31,7 +31,7 @@ module Alf
       alias :on_except    :on_set_operator
 
       def on_select_exp(sexpr)
-        dataset   = db.select(1)
+        dataset   = sequel_db.select(1)
         dataset   = dataset(apply(sexpr.from_clause)) if sexpr.from_clause
         #
         selection = apply(sexpr.select_list)
@@ -180,9 +180,13 @@ module Alf
 
     private
 
+      def sequel_db
+        connection.sequel_db
+      end
+
       def dataset(expr)
         return expr if ::Sequel::Dataset===expr
-        db[expr]
+        sequel_db[expr]
       end
 
     end # class Translator
