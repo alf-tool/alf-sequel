@@ -8,11 +8,15 @@ module Alf
       attr_reader :connection
 
       def on_with_exp(sexpr)
-        dataset = apply(sexpr.select_exp)
-        apply(sexpr.with_spec).each_pair do |name,subquery|
-          dataset = dataset.with(name, subquery)
+        if sequel_db.select(1).supports_cte?
+          dataset = apply(sexpr.select_exp)
+          apply(sexpr.with_spec).each_pair do |name,subquery|
+            dataset = dataset.with(name, subquery)
+          end
+          dataset
+        else
+          apply(Sql::Processor::Flatten.call(sexpr))
         end
-        dataset
       end
 
       def on_with_spec(sexpr)
@@ -95,6 +99,10 @@ module Alf
 
       def on_table_as(sexpr)
         ::Sequel.as(sexpr.table_name.to_sym, sexpr.as_name)
+      end
+
+      def on_subquery_as(sexpr)
+        ::Sequel.as(apply(sexpr.subquery), sexpr.as_name)
       end
 
       def on_order_by_clause(sexpr)
