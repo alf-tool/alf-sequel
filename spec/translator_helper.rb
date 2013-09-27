@@ -5,12 +5,11 @@ require_relative 'spec_helper'
 module TranslatorHelpers
 
   def db
-    #@db ||= SAP.create!(sequel_database_memory)
     @db ||= ::Sequel.connect("postgres://pointguard@localhost/pointguard_test")
   end
 
   def conn
-    Alf.connect(Path.dir, viewpoint: Alf::Test::Fake)
+    Alf.connect(Path.dir, viewpoint: Alf::Test::Sap::Fake)
   end
 
   def builder

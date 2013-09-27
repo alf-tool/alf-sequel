@@ -39,13 +39,19 @@ module Alf
         def _run
           connection.with_dataset(@relvar_name) do |d|
             bk = best_candidate_key
-            if bk and bk.size == 1
+            supported = d.supports_returning?(:insert)
+
+            if supported and bk and bk.size == 1
               pk_field_name = bk.to_a.first
-              supported = d.supports_returning?(:insert)
               d = d.returning(pk_field_name) if supported
               @insert_result = @inserted.map{|t|
-                res = d.insert(t.to_hash)
-                supported ? res.first : { pk_field_name => res }
+                d.insert(t.to_hash).first
+              }
+            elsif bk
+              pk_field_name = bk.to_a.first
+              @insert_result = @inserted.map{|t|
+                result = d.insert(t.to_hash)
+                bk.project_tuple(t) || { pk_field_name => result }
               }
             else
               @inserted.each{|t| d.insert(t.to_hash) }
