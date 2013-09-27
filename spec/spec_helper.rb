@@ -1,8 +1,9 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'alf-test'
 require 'alf-sequel'
 require "rspec"
 require 'path'
-require_relative 'fixtures/sap.rb'
+require 'logger'
 
 module Helpers
 
@@ -11,19 +12,19 @@ module Helpers
   end
 
   def sequel_database_uri
-    "#{Alf::Sequel::Adapter.sqlite_protocol}://#{sequel_database_path}"
+    Alf::Test::Sap.sequel_uri(:sqlite)
   end
 
   def sequel_database_memory
-    "#{Alf::Sequel::Adapter.sqlite_protocol}::memory:"
+    Alf::Test::Sap.sequel_uri(:memory)
   end
 
   def sap
-    @sap ||= Alf.connect Path.relative("fixtures/sap.db")
+    @sap ||= Alf::Test::Sap.connect(:sqlite)
   end
 
   def sap_memory
-    Alf.connect(SAP.create!(sequel_database_memory), schema_cache: false)
+    Alf::Test::Sap.connect(:memory, schema_cache: false)
   end
 
 end

@@ -25,11 +25,11 @@ module Alf
 
         context 'when predicate is not a tautology' do
           let(:relvar_name){ :suppliers }
-          let(:predicate){ Predicate.eq(sid: 1) }
+          let(:predicate){ Predicate.eq(sid: "S1") }
 
           it 'removes only targetted tuples' do
             conn.dataset(relvar_name).should_not be_empty
-            conn.dataset(relvar_name).where(sid: 1).should be_empty
+            conn.dataset(relvar_name).where(sid: "S1").should be_empty
           end
         end
 

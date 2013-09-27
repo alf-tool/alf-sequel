@@ -6,7 +6,7 @@ module Alf
       subject{ sap.heading(:suppliers) }
 
       let(:expected){
-        Heading[:sid => Integer, :name => String, :status => Integer, :city => String]
+        Heading[:sid => String, :name => String, :status => Integer, :city => String]
       }
 
       it{ should eq(expected) }
