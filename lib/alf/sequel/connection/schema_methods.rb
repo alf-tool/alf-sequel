@@ -11,12 +11,9 @@ module Alf
           sequel_db[name]
         end
 
-        def cog(name, expr = nil, opts = {})
-          if as = opts[:alias]
-            Cog.new(expr, self, dataset: dataset(:"#{name}___#{as}"), as: as)
-          else
-            Cog.new(expr, self, dataset: dataset(name))
-          end
+        def cog(name, expr = nil)
+          expr = Algebra::Operand::Named.new(name) unless expr
+          compiler.on_leaf_operand(expr)
         end
 
         def heading(name)
