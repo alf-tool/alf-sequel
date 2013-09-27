@@ -28,11 +28,13 @@ module Alf
           @sequel_db.disconnect if @sequel_db && @sequel_db != conn_spec
         end
 
+        def close!
+          @sequel_db.disconnect if @sequel_db
+        end
+
         def with_sequel_db
           yield(sequel_db)
         end
-
-      private
 
         # Yields a Sequel::Database object
         def sequel_db

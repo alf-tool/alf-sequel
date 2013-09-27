@@ -20,7 +20,7 @@ module Helpers
   end
 
   def sap
-    @sap ||= Alf::Test::Sap.connect(:sqlite)
+    Alf::Test::Sap.connect(:memory, schema_cache: false)
   end
 
   def sap_memory

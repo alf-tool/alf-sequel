@@ -16,9 +16,7 @@ module Alf
       end
 
       def dataset
-        @dataset ||= connection.with_sequel_db{|db|
-          Translator.new(db).call(sexpr)
-        }
+        @dataset ||= Translator.new(connection).call(sexpr)
       end
 
       def to_sql(buffer = "")

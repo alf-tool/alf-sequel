@@ -9,6 +9,10 @@ module Alf
         @compiler ||= Compiler.new(self)
       end
 
+      def translator
+        @translator ||= Translator.new(self)
+      end
+
       require_relative 'connection/schema_methods'
       require_relative 'connection/connection_methods'
       require_relative 'connection/update_methods'

@@ -25,7 +25,6 @@ module Alf
             end
 
             it 'keeps information about inserted tuples' do
-              puts uow.matching_relation
               uow.matching_relation.should eq(Relation sid: 'S10')
             end
           end
