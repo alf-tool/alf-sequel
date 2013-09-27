@@ -39,9 +39,9 @@ module Alf
             mr
           else
             filter = mr.tuple_extract.to_hash
-            tuples = connection.cog(@relvar_name)
-                               .filter(nil, filter)
-                               .select(nil, pkey.to_a)
+            tuples = connection.dataset(@relvar_name)
+                               .filter(filter)
+                               .select(pkey.to_a)
             Relation(tuples)
           end
         end
