@@ -24,6 +24,10 @@ module Alf
         buffer
       end
 
+      def to_s
+        "Alf::Sequel::Cog(#{to_sql})"
+      end
+
       def each(&bl)
         return to_enum unless block_given?
         dataset.each(&bl)
