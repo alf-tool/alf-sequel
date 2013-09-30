@@ -41,7 +41,10 @@ module Alf
                   conn.adapter_connection.dataset(sql).to_a
                 rescue => ex
                   $stderr.puts
+                  $stderr.puts query.alf
+                  $stderr.puts query.sql
                   $stderr.puts sql
+                  $stderr.puts subject.to_sql
                   $stderr.puts ex.message
                 end
               end
