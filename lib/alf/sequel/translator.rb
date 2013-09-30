@@ -15,7 +15,7 @@ module Alf
           end
           dataset
         else
-          apply(Sql::Processor::Flatten.call(sexpr))
+          apply(Sql::Processor::Flatten.new(Sql::Builder.new).call(sexpr))
         end
       end
 
