@@ -10,17 +10,8 @@ module Alf
 
     protected
 
-      def fresh_cog(expr, sexpr)
-        Cog.new(expr, self, sexpr, connection)
-      end
-
-      def rewrite(plan, expr, compiled, processor, args = [])
-        rewrited = processor.new(*args.push(builder)).call(compiled.sexpr)
-        Cog.new(expr, self, rewrited, compiled.connection)
-      end
-
-      def rebind(plan, expr, compiled)
-        Cog.new(expr, self, compiled.sexpr, compiled.connection)
+      def cog_class
+        Cog
       end
 
     end # class Compiler

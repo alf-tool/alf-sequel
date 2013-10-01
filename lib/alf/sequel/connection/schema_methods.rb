@@ -12,7 +12,7 @@ module Alf
         end
 
         def cog(plan, expr)
-          compiler.on_leaf_operand(plan, expr)
+          plan.join(compiler).on_leaf_operand(plan, expr)
         end
 
         def heading(name)

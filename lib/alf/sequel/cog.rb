@@ -4,19 +4,18 @@ module Alf
       include Alf::Compiler::Cog
       include Enumerable
 
-      def initialize(expr, compiler, sexpr, connection)
+      def initialize(expr, compiler, sexpr)
         super(expr, compiler)
         @sexpr = sexpr
-        @connection = connection
       end
-      attr_reader :sexpr, :connection
+      attr_reader :sexpr
 
       def cog_orders
         [ sexpr.ordering ].compact
       end
 
       def dataset
-        @dataset ||= Translator.new(connection).call(sexpr)
+        @dataset ||= Translator.new(compiler.connection).call(sexpr)
       end
 
       def to_sql(buffer = "")
