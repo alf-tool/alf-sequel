@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/alf-tool/alf-core.git
-  revision: 2ea49a4c0c1c5d731f82ca75cb6e565c03fde66a
+  revision: 6703320e980b05461cc86255517e26b48f05f4c9
   branch: compilable
   specs:
     alf-core (0.14.0)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/alf-tool/alf-sql.git
-  revision: b64b407d58258983c045bcfbda09cb3aec90efd3
+  revision: 8d6ccfb45d3dcb357cb13f20c4b44659490726f2
   specs:
     alf-sql (0.14.0)
       alf-core (~> 0.14.0)
