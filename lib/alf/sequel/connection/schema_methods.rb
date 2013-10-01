@@ -11,9 +11,8 @@ module Alf
           sequel_db[name]
         end
 
-        def cog(name, expr = nil)
-          expr = Algebra::Operand::Named.new(name, self) unless expr
-          compiler.on_leaf_operand(expr)
+        def cog(plan, expr)
+          compiler.on_leaf_operand(plan, expr)
         end
 
         def heading(name)
