@@ -13,5 +13,11 @@ namespace :test do
     t.rspec_opts = ["--color", "--backtrace"]
   end
 
+  desc "Run regression tests"
+  RSpec::Core::RakeTask.new(:regression) do |t|
+    t.pattern = "spec/regression/**/test_*.rb"
+    t.rspec_opts = ["--color", "--backtrace"]
+  end
+
 end
-task :test => [:"test:unit", :"test:integration"]
+task :test => [:"test:unit", :"test:regression", :"test:integration"]
