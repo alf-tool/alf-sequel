@@ -6,6 +6,8 @@ template-info:
       safe-override: false
     Gemfile:
       safe-override: false
+    spec/test___lower__.rb:
+      ignore: true
 variables:
   lower:
     sequel
