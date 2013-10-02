@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 group :runtime do
   gem "alf-core", :git => "git://github.com/alf-tool/alf-core.git"
   gem "alf-sql",  :git => "git://github.com/alf-tool/alf-sql.git"
-  gem "sequel", "~> 3.48"
+  gem "sequel", "~> 4.2"
 end
 
 group :test do
