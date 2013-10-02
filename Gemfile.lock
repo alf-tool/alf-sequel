@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: git://github.com/alf-tool/alf-sql.git
-  revision: 47a04ddc58feeef5ff38f976cd7d3df88a1f47e5
+  revision: ff09a32b403fe8b33486dfb4c66e8802ede4bdbb
   specs:
     alf-sql (0.15.0)
       alf-core (~> 0.15.0)
@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/alf-tool/alf-test.git
-  revision: 43598f312e3f1372bd2536c2312f7bcfe4fc1dc1
+  revision: fc411f88372a618cfff6fd84710018e050af8c72
   specs:
     alf-test (0.15.0)
       alf-core (~> 0.15.0)
