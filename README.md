@@ -3,7 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/alf-tool/alf-sequel.png)](http://travis-ci.org/alf-tool/alf-sequel)
 [![Dependency Status](https://gemnasium.com/alf-tool/alf-sequel.png)](https://gemnasium.com/alf-tool/alf-sequel)
 
-A sequel adapter for alf
+A DBMS adapter for Alf built atop [Sequel](http://sequel.rubyforge.org/).
 
 ## Links
 
