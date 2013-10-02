@@ -10,6 +10,10 @@ module Alf
       end
       attr_reader :sexpr
 
+      def should_be_reused?
+        sexpr.should_be_reused?
+      end
+
       def cog_orders
         [ sexpr.ordering ].compact
       end
