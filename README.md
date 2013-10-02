@@ -7,8 +7,9 @@ A sequel adapter for alf
 
 ## Links
 
-http://github.com/alf-tool/alf
-http://github.com/alf-tool/alf-sequel
+* http://github.com/alf-tool/alf
+* http://github.com/alf-tool/alf-sql
+* http://github.com/alf-tool/alf-sequel
 
 ## Synopsis
 
