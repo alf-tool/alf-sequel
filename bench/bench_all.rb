@@ -35,19 +35,21 @@ Alf::Test::Sap.each_query do |query|
 
   alf_expr, sql_expr = strip(query.alf), strip(query.sql)
 
-  ast,     parsing     = measure{ conn.parse(query.alf)      }
-  cog,     compiling   = measure{ compiler.call(ast)         }
-  dataset, translating = measure{ translator.call(cog.sexpr) }
-  to_sql,  printing    = measure{ cog.to_sql                 }
+  10.times do
+    ast,     parsing     = measure{ conn.parse(query.alf)      }
+    cog,     compiling   = measure{ compiler.call(ast)         }
+    dataset, translating = measure{ translator.call(cog.sexpr) }
+    to_sql,  printing    = measure{ cog.to_sql                 }
 
-  puts Alf::Support.to_ruby_literal({
-    category: query.category,
-    alf: alf_expr,
-    sql: sql_expr,
-    parsing: parsing,
-    compiling: compiling,
-    translating: translating,
-    printing: printing,
-    total: parsing + compiling + translating + printing
-  })
+    puts Alf::Support.to_ruby_literal({
+      category: query.category,
+      alf: alf_expr,
+      sql: sql_expr,
+      parsing: parsing,
+      compiling: compiling,
+      translating: translating,
+      printing: printing,
+      total: parsing + compiling + translating + printing
+    })
+  end
 end

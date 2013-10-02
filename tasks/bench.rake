@@ -17,7 +17,7 @@ namespace :bench do
   task :summary do
     cmd = bench_cmd
     cmd << " | "
-    cmd << alf_cmd("summarize -- category -- min 'min{ total }' max 'max{ total }' stddev 'stddev{ total }'")
+    cmd << alf_cmd("summarize -- category -- min 'min{ total }' max 'max{ total }' avg 'avg{ total }' stddev 'stddev{ total }'")
     $stderr.puts cmd
     exec(cmd)
   end
@@ -25,9 +25,11 @@ namespace :bench do
   task :rank do
     cmd = bench_cmd
     cmd << " | "
+    cmd << alf_cmd("summarize -- category alf -- parsing 'avg{ parsing }' compiling 'avg{ compiling }' printing 'avg{ printing }' total 'avg{ total }'")
+    cmd << " | "
     cmd << alf_cmd("rank -- total desc -- position")
     cmd << " | "
-    cmd << alf_cmd("project -- position category alf parsing compiling translating printing total")
+    cmd << alf_cmd("project -- position category alf parsing compiling printing total")
     cmd << " | "
     cmd << alf_cmd("restrict -- 'position < 10'")
     $stderr.puts cmd
