@@ -53,7 +53,7 @@ module Alf
       end
 
       def on_select_list(sexpr)
-        sexpr.sexpr_body.map{|c| apply(c)}
+        sexpr.sexpr_body.map{|c| apply(c) }
       end
 
       def on_select_star(sexpr)
@@ -61,11 +61,7 @@ module Alf
       end
 
       def on_select_item(sexpr)
-        if sexpr.would_be_name == sexpr.as_name
-          apply(sexpr.left)
-        else
-          ::Sequel.as(apply(sexpr.left), apply(sexpr.right))
-        end
+        ::Sequel.as(apply(sexpr.left), apply(sexpr.right))
       end
 
       def on_qualified_name(sexpr)
