@@ -28,6 +28,10 @@ module Alf
       end
 
       def to_s
+        to_sql
+      end
+
+      def inspect
         "Alf::Sequel::Cog(#{to_sql})"
       end
 
