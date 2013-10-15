@@ -1,23 +1,6 @@
-namespace :test do
-  require "rspec/core/rake_task"
-
-  desc "Run unit tests"
-  RSpec::Core::RakeTask.new(:unit) do |t|
-    t.pattern = "spec/unit/**/test_*.rb"
-    t.rspec_opts = ["--color", "--backtrace"]
-  end
-
-  desc "Run integration tests"
-  RSpec::Core::RakeTask.new(:integration) do |t|
-    t.pattern = "spec/integration/**/test_*.rb"
-    t.rspec_opts = ["--color", "--backtrace"]
-  end
-
-  desc "Run regression tests"
-  RSpec::Core::RakeTask.new(:regression) do |t|
-    t.pattern = "spec/regression/**/test_*.rb"
-    t.rspec_opts = ["--color", "--backtrace"]
-  end
-
+require "rspec/core/rake_task"
+desc "Run unit tests"
+RSpec::Core::RakeTask.new(:test) do |t|
+  t.pattern = "spec/**/test_*.rb"
+  t.rspec_opts = ["--color", "--backtrace", "-Ilib", "-Ispec"]
 end
-task :test => [:"test:unit", :"test:regression", :"test:integration"]

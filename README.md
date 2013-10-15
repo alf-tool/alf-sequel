@@ -21,9 +21,8 @@ that most existing SQL databases can be used with Alf thanks to the awesome
 
 ```ruby
 require 'alf-sequel'
-require 'alf-test' # this gem comes with the suppliers and parts (Sap) examplar
 
-Alf::Test::Sap.connect(:sqlite) do |conn|
+Alf.connect("sap.db") do |conn|
 
   # Send a query and puts the result
   # (See Alf main docs for smarter ways of using query results)
