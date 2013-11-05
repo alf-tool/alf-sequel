@@ -37,7 +37,11 @@ module Alf
 
       def each(&bl)
         return to_enum unless block_given?
-        dataset.each(&bl)
+        if sexpr.is_table_dee?
+          Alf::Engine::Clip.new(dataset, AttrList[:is_table_dee], true).each(&bl)
+        else
+          dataset.each(&bl)
+        end
       end
 
     end # class Cog
