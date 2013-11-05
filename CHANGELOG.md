@@ -1,3 +1,9 @@
+# 0.15.1 / FIX ME
+
+# 0.15.0 / 2013-11-01
+
+* Entirely refactored to use alf-sql instead of hard-coded compilation.
+
 # 0.14.0 / 2013-10-01
 
 * Added SQL implementation of `page` and `frame`

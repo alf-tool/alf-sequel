@@ -14,7 +14,7 @@ variables:
   upper:
     Sequel
   version:
-    0.15.0
+    0.15.1
   summary:
     A sequel adapter for alf
   description: |-
@@ -25,8 +25,8 @@ variables:
     - http://github.com/blambeau/alf-sequel
     - http://github.com/blambeau/alf
   dependencies:
-    - {name: alf-core,  version: "~> 0.15.0", groups: [runtime]}
-    - {name: alf-sql,   version: "~> 0.15.0", groups: [runtime]}
+    - {name: alf-core,  version: "~> 0.15.1", groups: [runtime]}
+    - {name: alf-sql,   version: "~> 0.15.1", groups: [runtime]}
     - {name: sequel,    version: "~> 4.2",    groups: [runtime]}
     - {name: rake,      version: "~> 10.1",   groups: [development]}
     - {name: rspec,     version: "~> 2.14",   groups: [development]}
