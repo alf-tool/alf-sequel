@@ -1,5 +1,8 @@
 # 0.15.1 / FIX ME
 
+* Connection#in_transaction now correctly delegates arguments to Sequel's
+  transaction method.
+
 # 0.15.0 / 2013-11-01
 
 * Entirely refactored to use alf-sql instead of hard-coded compilation.

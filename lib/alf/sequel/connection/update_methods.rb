@@ -4,8 +4,8 @@ module Alf
       module UpdateMethods
 
         # Yields the block in a transaction
-        def in_transaction(&bl)
-          sequel_db.transaction(&bl)
+        def in_transaction(*args, &bl)
+          sequel_db.transaction(*args, &bl)
         end
 
         def lock(name, mode, &bl)
