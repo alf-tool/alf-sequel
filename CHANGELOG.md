@@ -1,4 +1,4 @@
-# 0.15.1 / FIX ME
+# 0.16.0 / FIX ME
 
 * Connection#in_transaction now correctly delegates arguments to Sequel's
   transaction method.
