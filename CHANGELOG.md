@@ -1,3 +1,7 @@
+# 0.16.1 / 2014-04-30
+
+* Fix compilation of intersect(union), that led to wrong results (Fixes #1).
+
 # 0.16.0 / 2014-02-18
 
 * Connection#in_transaction now correctly delegates arguments to Sequel's
