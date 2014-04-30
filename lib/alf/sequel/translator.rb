@@ -28,6 +28,7 @@ module Alf
 
       def on_set_operator(sexpr)
         left, right = apply(sexpr.left), apply(sexpr.right)
+        left = left.from_self if sexpr.left.set_operator?
         left.send(sexpr.first, right, all: sexpr.all?, from_self: false)
       end
       alias :on_union     :on_set_operator
