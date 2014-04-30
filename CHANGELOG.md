@@ -1,3 +1,7 @@
+# 0.16.2 - FIX ME
+
+* No change in this submodule.
+
 # 0.16.1 / 2014-04-30
 
 * Fix compilation of intersect(union), that led to wrong results (Fixes #1).

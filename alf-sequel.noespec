@@ -16,7 +16,7 @@ variables:
   upper:
     Sequel
   version:
-    0.16.1
+    0.16.2
   summary:
     A sequel adapter for alf
   description: |-
