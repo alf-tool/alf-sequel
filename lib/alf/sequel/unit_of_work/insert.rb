@@ -54,7 +54,7 @@ module Alf
                 bk.project_tuple(t) || { pk_field_name => result }
               }
             else
-              @inserted.each{|t| d.insert(t.to_hash) }
+              @inserted.each{|t| d.disable_insert_returning.insert(t.to_hash) }
               @insert_result = nil
             end
           end
